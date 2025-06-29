@@ -55,6 +55,26 @@ fn main() {
     // Initialize logger
     env_logger::init();
 
+    // Fix PATH for macOS app bundles to include common Node.js locations
+    if cfg!(target_os = "macos") {
+        let current_path = std::env::var("PATH").unwrap_or_default();
+        let common_paths = vec!["/opt/homebrew/bin", "/usr/local/bin"];
+
+        let mut new_path_parts = vec![];
+        for path in &common_paths {
+            if std::path::Path::new(path).exists() && !current_path.contains(path) {
+                new_path_parts.push(path.to_string());
+            }
+        }
+
+        if !new_path_parts.is_empty() {
+            new_path_parts.push(current_path);
+            let enhanced_path = new_path_parts.join(":");
+            std::env::set_var("PATH", enhanced_path);
+            log::info!("Enhanced PATH for macOS app bundle");
+        }
+    }
+
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_shell::init())
