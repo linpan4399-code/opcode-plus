@@ -95,6 +95,7 @@ export const CustomTitlebar: React.FC<CustomTitlebarProps> = ({
             {isHovered && (
               <X size={8} className="text-red-900 opacity-60 group-hover:opacity-100" />
             )}
+            <span className="sr-only">Close window</span>
           </button>
 
           {/* Minimize button */}
@@ -109,6 +110,7 @@ export const CustomTitlebar: React.FC<CustomTitlebarProps> = ({
             {isHovered && (
               <Minus size={8} className="text-yellow-900 opacity-60 group-hover:opacity-100" />
             )}
+            <span className="sr-only">Minimize window</span>
           </button>
 
           {/* Maximize button */}
@@ -123,6 +125,7 @@ export const CustomTitlebar: React.FC<CustomTitlebarProps> = ({
             {isHovered && (
               <Square size={6} className="text-green-900 opacity-60 group-hover:opacity-100" />
             )}
+            <span className="sr-only">Maximize window</span>
           </button>
         </div>
       </div>
