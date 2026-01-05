@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FolderOpen,
@@ -103,6 +104,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({
   onOpenProject,
   className,
 }) => {
+  const { t } = useTranslation();
   const [showAll, setShowAll] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -259,9 +261,9 @@ export const ProjectList: React.FC<ProjectListProps> = ({
         <div className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold">Projects</h1>
+              <h1 className="text-3xl font-bold">{t('projects.title')}</h1>
               <p className="mt-1 text-body-small text-muted-foreground">
-                Select a project to start working with Claude Code
+                {t('projects.subtitle')}
               </p>
             </div>
             <motion.div
@@ -274,7 +276,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({
                 className="flex items-center gap-2"
               >
                 <FolderOpen className="h-4 w-4" />
-                Open Project
+                {t('projects.openProject')}
               </Button>
             </motion.div>
           </div>
@@ -283,19 +285,19 @@ export const ProjectList: React.FC<ProjectListProps> = ({
           <div className="relative mt-4">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search projects and sessions..."
+              placeholder={t('projects.searchPlaceholder', { defaultValue: 'Search projects and sessions...' })}
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              aria-label="Search projects and sessions"
+              aria-label={t('projects.searchAriaLabel', { defaultValue: 'Search projects and sessions' })}
               className="pl-9 pr-9 h-9"
             />
             {searchQuery && (
               <button
                 onClick={clearSearch}
-                aria-label="Clear search"
+                aria-label={t('common.clearSearch', { defaultValue: 'Clear search' })}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 <X className="h-4 w-4" />
@@ -311,7 +313,9 @@ export const ProjectList: React.FC<ProjectListProps> = ({
             <Card className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-heading-4">
-                  {isSearchActive ? `Projects matching "${searchQuery.trim()}"` : "Recent Projects"}
+                  {isSearchActive
+                    ? t('projects.searchMatching', { query: searchQuery.trim(), defaultValue: `Projects matching "${searchQuery.trim()}"` })
+                    : t('projects.recentProjects')}
                 </h2>
                 {!isSearchActive && (
                   !showAll ? (
@@ -319,14 +323,14 @@ export const ProjectList: React.FC<ProjectListProps> = ({
                       onClick={handleViewAll}
                       className="text-caption text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      View all ({projects.length})
+                      {t('projects.viewAll', { count: projects.length })}
                     </button>
                   ) : (
                     <button
                       onClick={handleViewLess}
                       className="text-caption text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      View less
+                      {t('projects.viewLess')}
                     </button>
                   )
                 )}
@@ -418,9 +422,9 @@ export const ProjectList: React.FC<ProjectListProps> = ({
                 <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                   <FolderOpen className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-heading-3 mb-2">No recent projects</h3>
+                <h3 className="text-heading-3 mb-2">{t('projects.noRecentProjects')}</h3>
                 <p className="text-body-small text-muted-foreground mb-6">
-                  Open a project to get started with Claude Code
+                  {t('projects.noRecentProjectsDesc')}
                 </p>
                 <motion.div
                   whileTap={{ scale: 0.97 }}
@@ -432,7 +436,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({
                     className="flex items-center gap-2"
                   >
                     <FolderOpen className="h-4 w-4" />
-                    Open Your First Project
+                    {t('projects.openFirstProject')}
                   </Button>
                 </motion.div>
               </div>
