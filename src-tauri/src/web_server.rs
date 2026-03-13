@@ -133,6 +133,22 @@ async fn get_sessions(
     }
 }
 
+#[derive(Deserialize)]
+struct SearchQuery {
+    q: String,
+}
+
+/// API endpoint to search sessions for a project
+async fn search_sessions(
+    Path(project_id): Path<String>,
+    Query(params): Query<SearchQuery>,
+) -> Json<ApiResponse<Vec<commands::claude::Session>>> {
+    match commands::claude::search_project_sessions(project_id, params.q).await {
+        Ok(sessions) => Json(ApiResponse::success(sessions)),
+        Err(e) => Json(ApiResponse::error(e.to_string())),
+    }
+}
+
 /// Simple agents endpoint - return empty for now (needs DB state)
 async fn get_agents() -> Json<ApiResponse<Vec<serde_json::Value>>> {
     Json(ApiResponse::success(vec![]))
@@ -836,6 +852,7 @@ pub async fn create_web_server(port: u16) -> Result<(), Box<dyn std::error::Erro
         // API routes (REST API equivalent of Tauri commands)
         .route("/api/projects", get(get_projects))
         .route("/api/projects/{project_id}/sessions", get(get_sessions))
+        .route("/api/projects/{project_id}/sessions/search", get(search_sessions))
         .route("/api/agents", get(get_agents))
         .route("/api/usage", get(get_usage))
         // Settings and configuration
