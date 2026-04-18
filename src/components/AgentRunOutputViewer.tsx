@@ -28,21 +28,6 @@ import { AGENT_ICONS } from './CCAgents';
 import type { ClaudeStreamMessage } from './AgentExecution';
 import { useTabState } from '@/hooks/useTabState';
 
-/**
- * Get display name for a model
- */
-const getModelDisplayName = (modelId: string): string => {
-  switch (modelId) {
-    case 'sonnet':
-      return 'Claude 4 Sonnet';
-    case 'opus':
-      return 'Claude 4 Opus';
-    default:
-      // For custom models, return the model ID as-is, but capitalize first letter
-      return modelId.charAt(0).toUpperCase() + modelId.slice(1);
-  }
-};
-
 interface AgentRunOutputViewerProps {
   /**
    * The agent run ID to display
@@ -345,7 +330,7 @@ export function AgentRunOutputViewer({
     if (!run) return;
     let markdown = `# Agent Execution: ${run.agent_name}\n\n`;
     markdown += `**Task:** ${run.task}\n`;
-    markdown += `**Model:** ${getModelDisplayName(run.model)}\n`;
+    markdown += `**Model:** ${run.model === 'opus' ? 'Claude 4 Opus' : 'Claude 4 Sonnet'}\n`;
     markdown += `**Date:** ${formatISOTimestamp(run.created_at)}\n`;
     if (run.metrics?.duration_ms) markdown += `**Duration:** ${(run.metrics.duration_ms / 1000).toFixed(2)}s\n`;
     if (run.metrics?.total_tokens) markdown += `**Total Tokens:** ${run.metrics.total_tokens}\n`;
@@ -581,7 +566,7 @@ export function AgentRunOutputViewer({
                   </p>
                   <div className="flex items-center gap-3 text-xs text-muted-foreground mt-2">
                     <Badge variant="outline" className="text-xs">
-                      {getModelDisplayName(run.model)}
+                      {run.model === 'opus' ? 'Claude 4 Opus' : 'Claude 4 Sonnet'}
                     </Badge>
                     <div className="flex items-center gap-1">
                       <Clock className="h-3 w-3" />
