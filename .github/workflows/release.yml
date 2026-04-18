@@ -79,9 +79,6 @@ jobs:
             for f in artifacts/windows-x86_64/*.exe; do
               [ -e "$f" ] && cp "$f" "release-assets/opcodePlus_${VER}_windows_x86_64-setup.exe"
             done
-            for f in artifacts/windows-x86_64/*.msi; do
-              [ -e "$f" ] && cp "$f" "release-assets/opcodePlus_${VER}_windows_x86_64.msi"
-            done
           fi
 
           # Source archives
@@ -155,23 +152,14 @@ jobs:
 
             ### 🪟 Windows 10 / 11 (x64)
 
-            **推荐: NSIS 一键安装**
-            `opcodePlus_${{ steps.version.outputs.version }}_windows_x86_64-setup.exe`
+            **文件:** `opcodePlus_${{ steps.version.outputs.version }}_windows_x86_64-setup.exe`
 
             1. 下载 `-setup.exe`
             2. 双击运行,按向导完成安装(可选安装语言)
             3. 若 SmartScreen 提示"Windows 已保护你的电脑": 点击 **更多信息 → 仍要运行**
             4. 安装完成后从开始菜单启动 **opcodePlus**
 
-            **备选: MSI 企业部署包**
-            `opcodePlus_${{ steps.version.outputs.version }}_windows_x86_64.msi`
-
-            适用于组策略/SCCM 静默部署:
-            ```powershell
-            msiexec /i opcodePlus_${{ steps.version.outputs.version }}_windows_x86_64.msi /quiet
-            ```
-
-            可选校验:
+            **校验(可选):**
             ```powershell
             Get-FileHash .\opcodePlus_${{ steps.version.outputs.version }}_windows_x86_64-setup.exe -Algorithm SHA256
             ```

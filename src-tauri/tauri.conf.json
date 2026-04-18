@@ -62,8 +62,7 @@
       "appimage",
       "app",
       "dmg",
-      "nsis",
-      "msi"
+      "nsis"
     ],
     "icon": [
       "icons/32x32.png",

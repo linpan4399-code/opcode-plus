@@ -1,12 +1,8 @@
 name: Build Test
 
-# Trigger on every push and pull request
+# Trigger manually only (disabled auto push/pr triggers for opcodePlus fork)
 on:
-  push:
-    branches: [ main, develop, 'release/**', 'feature/**' ]
-  pull_request:
-    branches: [ main, develop ]
-    types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 # Cancel in-progress workflows when a new commit is pushed
 concurrency:

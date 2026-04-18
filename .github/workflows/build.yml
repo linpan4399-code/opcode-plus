@@ -1,10 +1,6 @@
 name: Build Claudia
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 # Cancel in-progress workflows when a new commit is pushed

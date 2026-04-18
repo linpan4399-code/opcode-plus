@@ -46,8 +46,6 @@ jobs:
           New-Item -ItemType Directory -Force -Path dist\windows-x86_64 | Out-Null
           Get-ChildItem -Path src-tauri\target\x86_64-pc-windows-msvc\release\bundle\nsis -Filter *.exe -ErrorAction SilentlyContinue |
             ForEach-Object { Copy-Item $_.FullName dist\windows-x86_64\ }
-          Get-ChildItem -Path src-tauri\target\x86_64-pc-windows-msvc\release\bundle\msi -Filter *.msi -ErrorAction SilentlyContinue |
-            ForEach-Object { Copy-Item $_.FullName dist\windows-x86_64\ }
 
           Push-Location dist\windows-x86_64
           Get-ChildItem -File | ForEach-Object {
