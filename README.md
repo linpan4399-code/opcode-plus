@@ -1,3 +1,14 @@
+<!--
+  opcode-plus — 社区增强版 fork of getAsterisk/opcode
+  Attribution / legal notes: see ATTRIBUTION.md
+  Merged PRs list: see CHANGELOG.md
+-->
+
+> **📢 你正在查看 [opcode-plus](https://github.com/linpan4399-code/opcode-plus)** — 基于 [getAsterisk/opcode](https://github.com/getAsterisk/opcode) 的社区增强 fork,合并了多个长期未处理的高质量 PR。本项目**不附属于**原作者或 Anthropic。完整溯源见 [`ATTRIBUTION.md`](./ATTRIBUTION.md),合并 PR 清单见 [`CHANGELOG.md`](./CHANGELOG.md)。许可证与上游一致: AGPL-3.0。
+>
+> 下方为上游原始 README,未经修改。
+
+---
 
 <div align="center">
   <img src="src-tauri/icons/icon.png" alt="opcode Logo" width="120" height="120">
