@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "opcode",
-    "welcome": "歡迎使用 opcode"
+    "name": "opcodePlus",
+    "welcome": "歡迎使用 opcodePlus"
   },
   "nav": {
     "agents": "智能體",
@@ -24,7 +24,7 @@
     "installClaudeCode": "安裝 Claude Code"
   },
   "welcome": {
-    "title": "歡迎使用 opcode",
+    "title": "歡迎使用 opcodePlus",
     "ccAgents": "CC 智能體",
     "projects": "專案"
   },
@@ -140,7 +140,7 @@
       "retention": "聊天記錄保留天數",
       "retentionDesc": "本機保留聊天記錄的時長（預設：30 天）",
       "analytics": "啟用分析",
-      "analyticsDesc": "透過分享匿名使用資料協助改進 opcode",
+      "analyticsDesc": "透過分享匿名使用資料協助改進 opcodePlus",
       "analyticsEnabled": "分析已啟用",
       "analyticsDisabled": "分析已停用",
       "privacyTitle": "您的隱私受到保護",

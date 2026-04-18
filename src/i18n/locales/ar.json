@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "opcode",
-    "welcome": "مرحباً بك في opcode"
+    "name": "opcodePlus",
+    "welcome": "مرحباً بك في opcodePlus"
   },
   "nav": {
     "agents": "الوكلاء",
@@ -24,7 +24,7 @@
     "installClaudeCode": "تثبيت Claude Code"
   },
   "welcome": {
-    "title": "مرحباً بك في opcode",
+    "title": "مرحباً بك في opcodePlus",
     "ccAgents": "وكلاء CC",
     "projects": "المشاريع"
   },
@@ -140,7 +140,7 @@
       "retention": "الاحتفاظ بسجل المحادثات (أيام)",
       "retentionDesc": "مدة الاحتفاظ بسجل المحادثات محلياً (الافتراضي: 30 يوم)",
       "analytics": "تفعيل التحليلات",
-      "analyticsDesc": "ساعد في تحسين opcode بمشاركة بيانات استخدام مجهولة",
+      "analyticsDesc": "ساعد في تحسين opcodePlus بمشاركة بيانات استخدام مجهولة",
       "analyticsEnabled": "التحليلات مفعلة",
       "analyticsDisabled": "التحليلات معطلة",
       "privacyTitle": "خصوصيتك محمية",

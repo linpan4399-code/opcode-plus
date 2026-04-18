@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "opcode",
-    "welcome": "Welcome to opcode"
+    "name": "opcodePlus",
+    "welcome": "Welcome to opcodePlus"
   },
   "nav": {
     "agents": "Agents",
@@ -24,7 +24,7 @@
     "installClaudeCode": "Install Claude Code"
   },
   "welcome": {
-    "title": "Welcome to opcode",
+    "title": "Welcome to opcodePlus",
     "ccAgents": "CC Agents",
     "projects": "Projects"
   },
@@ -140,7 +140,7 @@
       "retention": "Chat Transcript Retention (days)",
       "retentionDesc": "How long to retain chat transcripts locally (default: 30 days)",
       "analytics": "Enable Analytics",
-      "analyticsDesc": "Help improve opcode by sharing anonymous usage data",
+      "analyticsDesc": "Help improve opcodePlus by sharing anonymous usage data",
       "analyticsEnabled": "Analytics enabled",
       "analyticsDisabled": "Analytics disabled",
       "privacyTitle": "Your privacy is protected",

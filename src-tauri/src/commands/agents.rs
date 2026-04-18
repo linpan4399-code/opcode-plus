@@ -1832,7 +1832,7 @@ pub async fn fetch_github_agents() -> Result<Vec<GitHubAgentFile>, String> {
     let response = client
         .get(url)
         .header("Accept", "application/vnd.github+json")
-        .header("User-Agent", "opcode-App")
+        .header("User-Agent", "opcodePlus-App")
         .send()
         .await
         .map_err(|e| format!("Failed to fetch from GitHub: {}", e))?;
@@ -1876,7 +1876,7 @@ pub async fn fetch_github_agent_content(download_url: String) -> Result<AgentExp
     let response = client
         .get(&download_url)
         .header("Accept", "application/json")
-        .header("User-Agent", "opcode-App")
+        .header("User-Agent", "opcodePlus-App")
         .send()
         .await
         .map_err(|e| format!("Failed to download agent: {}", e))?;

@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "opcode",
-    "welcome": "Добро пожаловать в opcode"
+    "name": "opcodePlus",
+    "welcome": "Добро пожаловать в opcodePlus"
   },
   "nav": {
     "agents": "Агенты",
@@ -24,7 +24,7 @@
     "installClaudeCode": "Установить Claude Code"
   },
   "welcome": {
-    "title": "Добро пожаловать в opcode",
+    "title": "Добро пожаловать в opcodePlus",
     "ccAgents": "CC-агенты",
     "projects": "Проекты"
   },
@@ -140,7 +140,7 @@
       "retention": "Хранение истории чата (дней)",
       "retentionDesc": "Срок локального хранения истории чата (по умолчанию: 30 дней)",
       "analytics": "Включить аналитику",
-      "analyticsDesc": "Помогите улучшить opcode, делясь анонимными данными об использовании",
+      "analyticsDesc": "Помогите улучшить opcodePlus, делясь анонимными данными об использовании",
       "analyticsEnabled": "Аналитика включена",
       "analyticsDisabled": "Аналитика отключена",
       "privacyTitle": "Ваша конфиденциальность защищена",

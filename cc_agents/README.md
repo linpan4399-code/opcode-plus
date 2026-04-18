@@ -1,8 +1,8 @@
-# 🤖 opcode CC Agents
+# 🤖 opcodePlus CC Agents
 
 <div align="center">
   <p>
-    <strong>Pre-built AI agents for opcode powered by Claude Code</strong>
+    <strong>Pre-built AI agents for opcodePlus powered by Claude Code</strong>
   </p>
   <p>
     <a href="#available-agents">Browse Agents</a> •
@@ -40,7 +40,7 @@ Choose from these icon options when creating agents:
 
 ### Method 1: Import from GitHub (Recommended)
 
-1. In opcode, navigate to **CC Agents**
+1. In opcodePlus, navigate to **CC Agents**
 2. Click the **Import** dropdown button
 3. Select **From GitHub**
 4. Browse available agents from the official repository
@@ -49,7 +49,7 @@ Choose from these icon options when creating agents:
 ### Method 2: Import from Local File
 
 1. Download a `.opcode.json` file from this repository
-2. In opcode, navigate to **CC Agents**
+2. In opcodePlus, navigate to **CC Agents**
 3. Click the **Import** dropdown button
 4. Select **From File**
 5. Choose the downloaded `.opcode.json` file
@@ -58,7 +58,7 @@ Choose from these icon options when creating agents:
 
 ### Export Your Custom Agents
 
-1. In opcode, navigate to **CC Agents**
+1. In opcodePlus, navigate to **CC Agents**
 2. Find your agent in the grid
 3. Click the **Export** button
 4. Choose where to save the `.opcode.json` file
@@ -113,7 +113,7 @@ The agent import/export system is built on a robust architecture:
 We welcome agent contributions! Here's how to add your agent:
 
 ### 1. Create Your Agent
-Design and test your agent in opcode with a clear, focused purpose.
+Design and test your agent in opcodePlus with a clear, focused purpose.
 
 ### 2. Export Your Agent
 Export your agent to a `.opcode.json` file with a descriptive name.
@@ -133,10 +133,10 @@ Export your agent to a `.opcode.json` file with a descriptive name.
 
 ## 📜 License
 
-These agents are provided under the same license as the opcode project. See the main LICENSE file for details.
+These agents are provided under the same license as the opcodePlus project. See the main LICENSE file for details.
 
 ---
 
 <div align="center">
-  <strong>Built with ❤️ by the opcode community</strong>
+  <strong>Built with ❤️ by the opcodePlus community</strong>
 </div> 

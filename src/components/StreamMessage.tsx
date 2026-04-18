@@ -161,10 +161,16 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
                   // Thinking content - render with ThinkingWidget
                   if (content.type === "thinking") {
                     renderedSomething = true;
+                    const thinkingText =
+                      (typeof content.thinking === "string" && content.thinking) ||
+                      (typeof content.text === "string" && content.text) ||
+                      (typeof content.thought === "string" && content.thought) ||
+                      (content.thinking && typeof content.thinking === "object" && typeof content.thinking.text === "string" && content.thinking.text) ||
+                      '';
                     return (
                       <div key={idx}>
-                        <ThinkingWidget 
-                          thinking={content.thinking || ''} 
+                        <ThinkingWidget
+                          thinking={thinkingText}
                           signature={content.signature}
                         />
                       </div>

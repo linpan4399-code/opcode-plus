@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "opcode",
-    "welcome": "opcode에 오신 것을 환영합니다"
+    "name": "opcodePlus",
+    "welcome": "opcodePlus에 오신 것을 환영합니다"
   },
   "nav": {
     "agents": "에이전트",
@@ -24,7 +24,7 @@
     "installClaudeCode": "Claude Code 설치"
   },
   "welcome": {
-    "title": "opcode에 오신 것을 환영합니다",
+    "title": "opcodePlus에 오신 것을 환영합니다",
     "ccAgents": "CC 에이전트",
     "projects": "프로젝트"
   },
@@ -140,7 +140,7 @@
       "retention": "채팅 기록 보관 기간 (일)",
       "retentionDesc": "채팅 기록을 로컬에 보관하는 기간 (기본값: 30일)",
       "analytics": "분석 활성화",
-      "analyticsDesc": "익명의 사용 데이터를 공유하여 opcode 개선에 도움을 주세요",
+      "analyticsDesc": "익명의 사용 데이터를 공유하여 opcodePlus 개선에 도움을 주세요",
       "analyticsEnabled": "분석 활성화됨",
       "analyticsDisabled": "분석 비활성화됨",
       "privacyTitle": "귀하의 개인정보는 보호됩니다",

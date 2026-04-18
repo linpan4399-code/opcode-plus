@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "opcode",
-    "welcome": "Chào mừng đến với opcode"
+    "name": "opcodePlus",
+    "welcome": "Chào mừng đến với opcodePlus"
   },
   "nav": {
     "agents": "Tác nhân",
@@ -24,7 +24,7 @@
     "installClaudeCode": "Cài đặt Claude Code"
   },
   "welcome": {
-    "title": "Chào mừng đến với opcode",
+    "title": "Chào mừng đến với opcodePlus",
     "ccAgents": "Tác nhân CC",
     "projects": "Dự án"
   },
@@ -140,7 +140,7 @@
       "retention": "Lưu giữ lịch sử trò chuyện (ngày)",
       "retentionDesc": "Thời gian lưu giữ lịch sử trò chuyện cục bộ (mặc định: 30 ngày)",
       "analytics": "Bật phân tích",
-      "analyticsDesc": "Giúp cải thiện opcode bằng cách chia sẻ dữ liệu sử dụng ẩn danh",
+      "analyticsDesc": "Giúp cải thiện opcodePlus bằng cách chia sẻ dữ liệu sử dụng ẩn danh",
       "analyticsEnabled": "Đã bật phân tích",
       "analyticsDisabled": "Đã tắt phân tích",
       "privacyTitle": "Quyền riêng tư của bạn được bảo vệ",

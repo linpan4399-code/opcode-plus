@@ -7,8 +7,8 @@ mod process;
 mod web_server;
 
 #[derive(Parser)]
-#[command(name = "opcode-web")]
-#[command(about = "Opcode Web Server - Access Opcode from your phone")]
+#[command(name = "opcode_plus_web")]
+#[command(about = "opcodePlus Web Server - Access opcodePlus from your phone")]
 struct Args {
     /// Port to run the web server on
     #[arg(short, long, default_value = "8080")]

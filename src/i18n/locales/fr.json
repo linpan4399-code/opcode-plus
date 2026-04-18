@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "opcode",
-    "welcome": "Bienvenue sur opcode"
+    "name": "opcodePlus",
+    "welcome": "Bienvenue sur opcodePlus"
   },
   "nav": {
     "agents": "Agents",
@@ -24,7 +24,7 @@
     "installClaudeCode": "Installer Claude Code"
   },
   "welcome": {
-    "title": "Bienvenue sur opcode",
+    "title": "Bienvenue sur opcodePlus",
     "ccAgents": "Agents CC",
     "projects": "Projets"
   },
@@ -140,7 +140,7 @@
       "retention": "Conservation de l'historique de chat (jours)",
       "retentionDesc": "Durée de conservation de l'historique de chat localement (par défaut : 30 jours)",
       "analytics": "Activer les analyses",
-      "analyticsDesc": "Aidez à améliorer opcode en partageant des données d'utilisation anonymes",
+      "analyticsDesc": "Aidez à améliorer opcodePlus en partageant des données d'utilisation anonymes",
       "analyticsEnabled": "Analyses activées",
       "analyticsDisabled": "Analyses désactivées",
       "privacyTitle": "Votre vie privée est protégée",

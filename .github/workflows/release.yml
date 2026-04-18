@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to release (e.g., v1.0.0)'
+        description: 'Version to release (e.g., v1.0.0-plus.1)'
         required: true
         type: string
 
@@ -15,25 +15,26 @@ permissions:
   contents: write
 
 jobs:
-  # Build jobs for each platform
   build-linux:
     uses: ./.github/workflows/build-linux.yml
     secrets: inherit
-  
+
   build-macos:
     uses: ./.github/workflows/build-macos.yml
     secrets: inherit
-  
 
-  # Create release after all builds complete
+  build-windows:
+    uses: ./.github/workflows/build-windows.yml
+    secrets: inherit
+
   create-release:
     name: Create Release
-    needs: [build-linux, build-macos]
+    needs: [build-linux, build-macos, build-windows]
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Determine version
         id: version
         run: |
@@ -44,77 +45,166 @@ jobs:
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Version: $VERSION"
-      
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
-      
+
       - name: Prepare release assets
         run: |
           mkdir -p release-assets
-          
+          VER="${{ steps.version.outputs.version }}"
+
           # Linux artifacts
           if [ -d "artifacts/linux-x86_64" ]; then
-            cp artifacts/linux-x86_64/*.deb release-assets/opcode_${{ steps.version.outputs.version }}_linux_x86_64.deb || true
-            cp artifacts/linux-x86_64/*.AppImage release-assets/opcode_${{ steps.version.outputs.version }}_linux_x86_64.AppImage || true
+            for f in artifacts/linux-x86_64/*.deb; do
+              [ -e "$f" ] && cp "$f" "release-assets/opcodePlus_${VER}_linux_x86_64.deb"
+            done
+            for f in artifacts/linux-x86_64/*.AppImage; do
+              [ -e "$f" ] && cp "$f" "release-assets/opcodePlus_${VER}_linux_x86_64.AppImage"
+            done
           fi
-          
+
           # macOS artifacts
           if [ -d "artifacts/macos-universal" ]; then
-            cp artifacts/macos-universal/opcode.dmg release-assets/opcode_${{ steps.version.outputs.version }}_macos_universal.dmg || true
-            cp artifacts/macos-universal/opcode.app.zip release-assets/opcode_${{ steps.version.outputs.version }}_macos_universal.app.tar.gz || true
+            [ -e artifacts/macos-universal/opcodePlus.dmg ] && \
+              cp artifacts/macos-universal/opcodePlus.dmg "release-assets/opcodePlus_${VER}_macos_universal.dmg"
+            [ -e artifacts/macos-universal/opcodePlus.app.zip ] && \
+              cp artifacts/macos-universal/opcodePlus.app.zip "release-assets/opcodePlus_${VER}_macos_universal.app.zip"
           fi
-          
-          # Create source code archives
-          # Clean version without 'v' prefix for archive names
-          CLEAN_VERSION="${{ steps.version.outputs.version }}"
-          CLEAN_VERSION="${CLEAN_VERSION#v}"
-          
-          # Create source code archives (excluding .git and other unnecessary files)
-          echo "Creating source code archives..."
-          
-          # Create a clean export of the repository
-          git archive --format=tar.gz --prefix=opcode-${CLEAN_VERSION}/ -o release-assets/opcode-${CLEAN_VERSION}.tar.gz HEAD
-          git archive --format=zip --prefix=opcode-${CLEAN_VERSION}/ -o release-assets/opcode-${CLEAN_VERSION}.zip HEAD
 
-          # Generate signatures for all files
+          # Windows artifacts
+          if [ -d "artifacts/windows-x86_64" ]; then
+            for f in artifacts/windows-x86_64/*.exe; do
+              [ -e "$f" ] && cp "$f" "release-assets/opcodePlus_${VER}_windows_x86_64-setup.exe"
+            done
+            for f in artifacts/windows-x86_64/*.msi; do
+              [ -e "$f" ] && cp "$f" "release-assets/opcodePlus_${VER}_windows_x86_64.msi"
+            done
+          fi
+
+          # Source archives
+          CLEAN_VERSION="${VER#v}"
+          git archive --format=tar.gz --prefix=opcodePlus-${CLEAN_VERSION}/ -o release-assets/opcodePlus-${CLEAN_VERSION}.tar.gz HEAD
+          git archive --format=zip --prefix=opcodePlus-${CLEAN_VERSION}/ -o release-assets/opcodePlus-${CLEAN_VERSION}.zip HEAD
+
+          # Checksums
           cd release-assets
           for file in *; do
-            if [ -f "$file" ]; then
-              sha256sum "$file" > "$file.sha256"
-            fi
+            [ -f "$file" ] && sha256sum "$file" > "$file.sha256"
           done
           cd ..
-      
+
+          echo "=== Assets ==="
+          ls -la release-assets
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.version.outputs.version }}
-          name: opcode ${{ steps.version.outputs.version }}
+          name: opcodePlus ${{ steps.version.outputs.version }}
           draft: true
           prerelease: false
           generate_release_notes: true
           files: release-assets/*
           body: |
             <div align="center">
-              <img src="https://raw.githubusercontent.com/${{ github.repository }}/${{ steps.version.outputs.version }}/src-tauri/icons/icon.png" alt="opcode Logo" width="128" height="128">
+              <img src="https://raw.githubusercontent.com/${{ github.repository }}/${{ steps.version.outputs.version }}/src-tauri/icons/icon.png" alt="opcodePlus Logo" width="128" height="128">
+              <h1>opcodePlus ${{ steps.version.outputs.version }}</h1>
+              <p><strong>Claude Code GUI 增强版 · 社区维护</strong></p>
             </div>
 
-            ## opcode ${{ steps.version.outputs.version }}
+            > opcodePlus 基于 [getAsterisk/opcode](https://github.com/getAsterisk/opcode) 社区 fork,合并多个长期未处理的高质量 PR,统一维护。本项目**不附属于** Anthropic 或原作者。许可证: AGPL-3.0。
 
-            This release was built and signed by CI. Artifacts for macOS and Linux are attached below.
+            ---
 
-            - Auto-generated release notes are included below (commits, PRs, and contributors).
-            - Checksums (`.sha256`) are provided for all assets.
+            ## 📦 下载与安装
 
-            ### Downloads
+            请根据你的操作系统下载对应的安装包。所有产物都由 GitHub Actions CI 构建,并提供 `.sha256` 校验和。
 
-            - macOS: `.dmg`, `.app.tar.gz` (Universal: Apple Silicon + Intel)
-            - Linux: `.AppImage`, `.deb`
+            ### 🍎 macOS (Intel + Apple Silicon 通用)
 
-            ### Installation
+            **文件:** `opcodePlus_${{ steps.version.outputs.version }}_macos_universal.dmg`
 
-            - macOS: Open the `.dmg` and drag opcode to Applications.
-            - Linux: `chmod +x` the `.AppImage` and run it, or install the `.deb` on Debian/Ubuntu.
-            
+            1. 下载 `.dmg` 文件
+            2. 双击打开,将 **opcodePlus** 图标拖入 `Applications` 文件夹
+            3. 首次启动: 从启动台或 Applications 中打开 opcodePlus
+            4. 若系统提示"无法打开,因为 Apple 无法检查恶意软件": 前往 **系统设置 → 隐私与安全性**,在底部点击 **仍要打开**
+            5. 可选校验:
+               ```bash
+               shasum -a 256 -c opcodePlus_${{ steps.version.outputs.version }}_macos_universal.dmg.sha256
+               ```
+
+            > 💡 **通用二进制**: 同一个 `.dmg` 同时支持 Intel (`x86_64`) 和 Apple Silicon (`M1/M2/M3/M4`) Mac。
+
+            ### 🪟 Windows 10 / 11 (x64)
+
+            **推荐: NSIS 一键安装**
+            `opcodePlus_${{ steps.version.outputs.version }}_windows_x86_64-setup.exe`
+
+            1. 下载 `-setup.exe`
+            2. 双击运行,按向导完成安装(可选安装语言)
+            3. 若 SmartScreen 提示"Windows 已保护你的电脑": 点击 **更多信息 → 仍要运行**
+            4. 安装完成后从开始菜单启动 **opcodePlus**
+
+            **备选: MSI 企业部署包**
+            `opcodePlus_${{ steps.version.outputs.version }}_windows_x86_64.msi`
+
+            适用于组策略/SCCM 静默部署:
+            ```powershell
+            msiexec /i opcodePlus_${{ steps.version.outputs.version }}_windows_x86_64.msi /quiet
+            ```
+
+            可选校验:
+            ```powershell
+            Get-FileHash .\opcodePlus_${{ steps.version.outputs.version }}_windows_x86_64-setup.exe -Algorithm SHA256
+            ```
+
+            ### 🐧 Linux (x86_64)
+
+            **通用包: AppImage (免安装,任何发行版)**
+            `opcodePlus_${{ steps.version.outputs.version }}_linux_x86_64.AppImage`
+
+            ```bash
+            chmod +x opcodePlus_${{ steps.version.outputs.version }}_linux_x86_64.AppImage
+            ./opcodePlus_${{ steps.version.outputs.version }}_linux_x86_64.AppImage
+            ```
+
+            **Debian / Ubuntu (.deb)**
+            ```bash
+            sudo apt install ./opcodePlus_${{ steps.version.outputs.version }}_linux_x86_64.deb
+            # 或
+            sudo dpkg -i opcodePlus_${{ steps.version.outputs.version }}_linux_x86_64.deb
+            sudo apt --fix-broken install
+            ```
+
+            运行依赖(Ubuntu 22.04+/Debian 12+ 默认已包含):
+            - `libwebkit2gtk-4.1-0`
+            - `libgtk-3-0`
+
+            校验:
+            ```bash
+            sha256sum -c opcodePlus_${{ steps.version.outputs.version }}_linux_x86_64.AppImage.sha256
+            ```
+
+            ---
+
+            ## 🚀 首次启动配置
+
+            1. 启动后,opcodePlus 会自动检测 `~/.claude` 目录
+            2. 在 **设置 → General** 中可切换 12 国语言(简中/繁中/英/日/韩/德/法/西/葡/俄/阿/越)
+            3. 查看 **CC Agents** 可从 GitHub 社区库一键导入预置 agents
+
+            ## 🔍 完整性校验
+
+            每个文件均附带 `.sha256`。Release 附件中的 `checksums.txt`(Linux/Windows 子目录)可一次性校验多个文件。
+
+            ## 🐛 反馈问题
+
+            - opcodePlus 特有 bug: 在本仓库提 [Issue](https://github.com/${{ github.repository }}/issues)
+            - 上游 opcode 相关: [getAsterisk/opcode/issues](https://github.com/getAsterisk/opcode/issues)
+
+            ---
+
+            下方为 GitHub 自动生成的 commit / PR / 贡献者列表 ⬇️

@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "opcode",
-    "welcome": "opcodeへようこそ"
+    "name": "opcodePlus",
+    "welcome": "opcodePlusへようこそ"
   },
   "nav": {
     "agents": "エージェント",
@@ -24,7 +24,7 @@
     "installClaudeCode": "Claude Codeをインストール"
   },
   "welcome": {
-    "title": "opcodeへようこそ",
+    "title": "opcodePlusへようこそ",
     "ccAgents": "CCエージェント",
     "projects": "プロジェクト"
   },
@@ -140,7 +140,7 @@
       "retention": "チャット履歴の保持期間（日数）",
       "retentionDesc": "チャット履歴をローカルに保持する期間（デフォルト：30日）",
       "analytics": "分析を有効化",
-      "analyticsDesc": "匿名の使用データを共有してopcodeの改善に協力",
+      "analyticsDesc": "匿名の使用データを共有してopcodePlusの改善に協力",
       "analyticsEnabled": "分析が有効",
       "analyticsDisabled": "分析が無効",
       "privacyTitle": "プライバシーは保護されています",

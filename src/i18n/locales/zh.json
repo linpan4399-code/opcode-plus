@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "opcode",
-    "welcome": "欢迎使用 opcode"
+    "name": "opcodePlus",
+    "welcome": "欢迎使用 opcodePlus"
   },
   "nav": {
     "agents": "智能体",
@@ -24,7 +24,7 @@
     "installClaudeCode": "安装 Claude Code"
   },
   "welcome": {
-    "title": "欢迎使用 opcode",
+    "title": "欢迎使用 opcodePlus",
     "ccAgents": "CC 智能体",
     "projects": "项目"
   },
@@ -140,7 +140,7 @@
       "retention": "聊天记录保留天数",
       "retentionDesc": "本地保留聊天记录的时长（默认：30 天）",
       "analytics": "启用分析",
-      "analyticsDesc": "通过共享匿名使用数据帮助改进 opcode",
+      "analyticsDesc": "通过共享匿名使用数据帮助改进 opcodePlus",
       "analyticsEnabled": "分析已启用",
       "analyticsDisabled": "分析已禁用",
       "privacyTitle": "您的隐私受到保护",

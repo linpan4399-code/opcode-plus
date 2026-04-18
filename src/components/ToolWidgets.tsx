@@ -2271,15 +2271,15 @@ export const WebSearchWidget: React.FC<{
  * Widget for displaying AI thinking/reasoning content
  * Collapsible and closed by default
  */
-export const ThinkingWidget: React.FC<{ 
+export const ThinkingWidget: React.FC<{
   thinking: string;
   signature?: string;
 }> = ({ thinking }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  
-  // Strip whitespace from thinking content
-  const trimmedThinking = thinking.trim();
-  
+
+  const trimmedThinking = (thinking || '').trim();
+  const hasContent = trimmedThinking.length > 0;
+
   return (
     <div className="rounded-lg border border-gray-500/20 bg-gray-500/5 overflow-hidden">
       <button
@@ -2292,20 +2292,31 @@ export const ThinkingWidget: React.FC<{
             <Sparkles className="h-2.5 w-2.5 text-gray-400 absolute -top-1 -right-1 animate-pulse" />
           </div>
           <span className="text-sm font-medium text-gray-600 dark:text-gray-400 italic">
-            Thinking...
+            Thinking{hasContent ? '' : '…'}
           </span>
+          {hasContent && (
+            <span className="text-[10px] text-gray-400 font-normal not-italic">
+              ({trimmedThinking.length} chars)
+            </span>
+          )}
         </div>
         <ChevronRight className={cn(
           "h-4 w-4 text-gray-500 transition-transform",
           isExpanded && "rotate-90"
         )} />
       </button>
-      
+
       {isExpanded && (
         <div className="px-4 pb-4 pt-2 border-t border-gray-500/20">
-          <pre className="text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-pre-wrap bg-gray-500/5 p-3 rounded-lg italic">
-            {trimmedThinking}
-          </pre>
+          {hasContent ? (
+            <pre className="text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-pre-wrap break-words bg-gray-500/5 p-3 rounded-lg italic">
+              {trimmedThinking}
+            </pre>
+          ) : (
+            <div className="text-xs text-gray-500 dark:text-gray-500 italic p-3 bg-gray-500/5 rounded-lg">
+              No thinking content was captured for this step. The model may have used extended thinking without emitting reasoning text, or the stream did not include a thinking block.
+            </div>
+          )}
         </div>
       )}
     </div>
