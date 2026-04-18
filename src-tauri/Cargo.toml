@@ -16,10 +16,18 @@ path = "src/main.rs"
 name = "opcode_plus_lib"
 crate-type = ["lib", "cdylib", "staticlib"]
 
-[[bin]]
-name = "opcode_plus_web"
-path = "src/web_main.rs"
-required-features = ["web-server"]
+# NOTE: The optional web server binary (src/web_main.rs) is intentionally NOT
+# declared as a [[bin]] here. Tauri's bundler scans every [[bin]] entry in
+# Cargo.toml when packaging (.deb / .dmg / .msi / .nsis) and will fail if the
+# compiled artifact is missing. Cargo `required-features` does NOT hide the
+# entry from the bundler. Keeping opcode_plus_web out of the manifest is the
+# only reliable way to make Linux/Windows/macOS bundles succeed.
+#
+# To run the web server during development, temporarily add back the block:
+#   [[bin]]
+#   name = "opcode_plus_web"
+#   path = "src/web_main.rs"
+# then run `cargo run --bin opcode_plus_web`. Do NOT commit this change.
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
@@ -76,9 +84,6 @@ objc = "0.2"
 [features]
 # This feature is used for production builds or when a dev server is not specified, DO NOT REMOVE!!
 custom-protocol = ["tauri/custom-protocol"]
-# Opt-in feature: build the standalone web server binary (opcode_plus_web).
-# Not built by default to keep Tauri bundling (especially universal macOS) clean.
-web-server = []
 
 [profile.release]
 strip = true

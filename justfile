@@ -63,13 +63,17 @@ quick: build-frontend
 # Full rebuild from scratch
 rebuild: clean build run
 
-# Run web server mode for phone access
+# Run web server mode for phone access.
+# NOTE: the [[bin]] declaration for opcode_plus_web is intentionally commented
+# out in src-tauri/Cargo.toml so that Tauri bundlers (deb/dmg/nsis) work.
+# To use this command, temporarily re-add the [[bin]] block back to Cargo.toml;
+# do NOT commit that change.
 web: build-frontend
-    cd src-tauri && cargo run --features web-server --bin opcode_plus_web
+    cd src-tauri && cargo run --bin opcode_plus_web
 
-# Run web server on custom port
+# Run web server on custom port (see note above)
 web-port PORT: build-frontend
-    cd src-tauri && cargo run --features web-server --bin opcode_plus_web -- --port {{PORT}}
+    cd src-tauri && cargo run --bin opcode_plus_web -- --port {{PORT}}
 
 # Get local IP for phone access
 ip:
