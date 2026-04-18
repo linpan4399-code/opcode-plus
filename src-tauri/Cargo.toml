@@ -19,6 +19,7 @@ crate-type = ["lib", "cdylib", "staticlib"]
 [[bin]]
 name = "opcode_plus_web"
 path = "src/web_main.rs"
+required-features = ["web-server"]
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
@@ -75,6 +76,9 @@ objc = "0.2"
 [features]
 # This feature is used for production builds or when a dev server is not specified, DO NOT REMOVE!!
 custom-protocol = ["tauri/custom-protocol"]
+# Opt-in feature: build the standalone web server binary (opcode_plus_web).
+# Not built by default to keep Tauri bundling (especially universal macOS) clean.
+web-server = []
 
 [profile.release]
 strip = true
