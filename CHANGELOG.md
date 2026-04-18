@@ -34,6 +34,12 @@
 | [#428](https://github.com/winfunc/opcode/pull/428) | [@fardeenxyz](https://github.com/fardeenxyz) | MCP 服务器启停控制（UI 可直接启动/关闭 MCP 服务进程） |
 | [#449](https://github.com/winfunc/opcode/pull/449) | [@josegtmonteiro](https://github.com/josegtmonteiro) | 全项目全文会话搜索：支持 `AND / OR / NOT` 操作符、精确短语、可折叠结果展示、高亮片段 |
 
+#### Internationalization (i18n)
+
+| PR | 贡献者 | 说明 |
+|---|---|---|
+| [#424](https://github.com/winfunc/opcode/pull/424) | [@LegnaOS](https://github.com/LegnaOS) | **完整的 12 语言国际化支持**（英、简中、繁中、日、韩、越、阿、德、西、法、俄、葡）。设置页提供语言切换器，翻译覆盖欢迎页、项目列表、MCP 管理、代理设置、存储、Agents、快捷命令等所有主要面板。手动解决了与 `#449` 搜索功能、`#428` MCP 启停在 ProjectList/MCPImportExport 中的冲突。|
+
 #### Accessibility
 
 | PR | 贡献者 | 说明 |
@@ -58,14 +64,13 @@
 | 功能增强 | #54 #56 #134 #261 #315 #379 #419 |
 | Windows 支持 | #457 |
 | 主题 | #191 |
-| 国际化（i18n） | #424 |
 | 修复杂项 | #80（含依赖更新冲突） |
 
 ### 未来路线 / Roadmap
 
-- [ ] 手动合入 [#424 LegnaOS i18n（12 语言）](https://github.com/winfunc/opcode/pull/424) —— 涉及几十个组件改动，需逐一解冲突。
 - [ ] 重新尝试 #230（自定义模型名），一并合入其依赖的基础 commit。
 - [ ] 考虑合并 [#457 Windows 完整支持](https://github.com/winfunc/opcode/pull/457)。
+- [ ] 继续补齐部分仍为英文的硬编码文案（例如搜索结果区域），未覆盖的地方用了 `defaultValue` 占位。
 
 ---
 
@@ -85,6 +90,7 @@ git log --format='%an <%ae>' | sort -u
 - [@iBreaker](https://github.com/iBreaker)
 - [@jakeefr](https://github.com/jakeefr)
 - [@josegtmonteiro](https://github.com/josegtmonteiro)
+- [@LegnaOS](https://github.com/LegnaOS)
 - [@lpintes](https://github.com/lpintes)
 - [@NerdSnipe](https://github.com/NerdSnipe)
 - [@phatblat](https://github.com/phatblat)
