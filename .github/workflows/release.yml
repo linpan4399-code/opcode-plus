@@ -127,14 +127,29 @@ jobs:
 
             **文件:** `opcodePlus_${{ steps.version.outputs.version }}_macos_universal.dmg`
 
-            1. 下载 `.dmg` 文件
-            2. 双击打开,将 **opcodePlus** 图标拖入 `Applications` 文件夹
-            3. 首次启动: 从启动台或 Applications 中打开 opcodePlus
-            4. 若系统提示"无法打开,因为 Apple 无法检查恶意软件": 前往 **系统设置 → 隐私与安全性**,在底部点击 **仍要打开**
-            5. 可选校验:
+            > ⚠️ **本版本未使用 Apple Developer 证书签名/公证**(节省 $99/年订阅)。功能完全不受影响,但首次打开需要以下额外步骤。后续版本若有需要会补上签名。
+
+            **首次安装打开步骤:**
+
+            1. 下载 `.dmg` 文件,双击打开
+            2. 将 **opcodePlus** 图标拖入 `Applications` 文件夹
+            3. 打开"终端",运行以下命令去除 quarantine 属性(**推荐,最省事**):
                ```bash
-               shasum -a 256 -c opcodePlus_${{ steps.version.outputs.version }}_macos_universal.dmg.sha256
+               xattr -dr com.apple.quarantine /Applications/opcodePlus.app
                ```
+               然后正常双击即可打开。
+
+            **或者**(不想用终端):
+
+            1. 在 `Applications` 中找到 opcodePlus,双击 → 弹出"无法打开"提示 → 点"好"
+            2. 打开 **系统设置 → 隐私与安全性**
+            3. 滑到底部,看到 `opcodePlus 已被阻止使用...` → 点 **仍要打开**
+            4. 弹窗确认 → 输入 Mac 登录密码 → 启动成功
+
+            **校验(可选):**
+            ```bash
+            shasum -a 256 -c opcodePlus_${{ steps.version.outputs.version }}_macos_universal.dmg.sha256
+            ```
 
             > 💡 **通用二进制**: 同一个 `.dmg` 同时支持 Intel (`x86_64`) 和 Apple Silicon (`M1/M2/M3/M4`) Mac。
 
