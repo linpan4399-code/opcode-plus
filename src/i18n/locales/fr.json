@@ -581,6 +581,50 @@
     "failedInsert": "Échec de l'insertion de la ligne",
     "failedExecuteSql": "Échec de l'exécution SQL",
     "failedReset": "Échec de la réinitialisation de la base de données"
+  },
+  "promptInput": {
+    "models": {
+      "sonnet": {
+        "name": "Claude 4 Sonnet",
+        "description": "Plus rapide, efficace pour la plupart des tâches"
+      },
+      "opus": {
+        "name": "Claude 4 Opus",
+        "description": "Plus performant, meilleur pour les tâches complexes"
+      }
+    },
+    "thinkingModes": {
+      "auto": {
+        "name": "Auto",
+        "description": "Laisser Claude décider"
+      },
+      "think": {
+        "name": "Réfléchir",
+        "description": "Raisonnement de base"
+      },
+      "think_hard": {
+        "name": "Réfléchir profondément",
+        "description": "Analyse plus approfondie"
+      },
+      "think_harder": {
+        "name": "Réfléchir très profondément",
+        "description": "Raisonnement approfondi"
+      },
+      "ultrathink": {
+        "name": "Ultra-réflexion",
+        "description": "Calcul maximum"
+      }
+    },
+    "tooltips": {
+      "attachFiles": "Joindre des fichiers",
+      "slashCommands": "Commandes slash",
+      "settings": "Paramètres",
+      "send": "Envoyer le message (Entrée)",
+      "cancel": "Arrêter la génération",
+      "expand": "Développer (Ctrl+Shift+E)",
+      "collapse": "Réduire"
+    },
+    "placeholder": "Message à Claude (@ pour fichiers, / pour commandes)...",
+    "placeholderExpanded": "Tapez votre message..."
   }
 }
-

@@ -581,6 +581,50 @@
     "failedInsert": "Không thể chèn hàng",
     "failedExecuteSql": "Không thể thực thi SQL",
     "failedReset": "Không thể đặt lại cơ sở dữ liệu"
+  },
+  "promptInput": {
+    "models": {
+      "sonnet": {
+        "name": "Claude 4 Sonnet",
+        "description": "Nhanh hơn, hiệu quả cho hầu hết các tác vụ"
+      },
+      "opus": {
+        "name": "Claude 4 Opus",
+        "description": "Mạnh mẽ hơn, tốt hơn cho các tác vụ phức tạp"
+      }
+    },
+    "thinkingModes": {
+      "auto": {
+        "name": "Tự động",
+        "description": "Để Claude quyết định"
+      },
+      "think": {
+        "name": "Suy nghĩ",
+        "description": "Lý luận cơ bản"
+      },
+      "think_hard": {
+        "name": "Suy nghĩ sâu",
+        "description": "Phân tích sâu hơn"
+      },
+      "think_harder": {
+        "name": "Suy nghĩ rất sâu",
+        "description": "Lý luận mở rộng"
+      },
+      "ultrathink": {
+        "name": "Siêu suy nghĩ",
+        "description": "Tính toán tối đa"
+      }
+    },
+    "tooltips": {
+      "attachFiles": "Đính kèm tệp",
+      "slashCommands": "Lệnh gạch chéo",
+      "settings": "Cài đặt",
+      "send": "Gửi tin nhắn (Enter)",
+      "cancel": "Dừng tạo",
+      "expand": "Mở rộng (Ctrl+Shift+E)",
+      "collapse": "Thu gọn"
+    },
+    "placeholder": "Tin nhắn cho Claude (@ cho tệp, / cho lệnh)...",
+    "placeholderExpanded": "Nhập tin nhắn của bạn..."
   }
 }
-

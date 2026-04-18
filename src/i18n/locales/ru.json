@@ -581,6 +581,50 @@
     "failedInsert": "Не удалось вставить строку",
     "failedExecuteSql": "Не удалось выполнить SQL",
     "failedReset": "Не удалось сбросить базу данных"
+  },
+  "promptInput": {
+    "models": {
+      "sonnet": {
+        "name": "Claude 4 Sonnet",
+        "description": "Быстрее, эффективен для большинства задач"
+      },
+      "opus": {
+        "name": "Claude 4 Opus",
+        "description": "Более мощный, лучше для сложных задач"
+      }
+    },
+    "thinkingModes": {
+      "auto": {
+        "name": "Авто",
+        "description": "Позволить Claude решить"
+      },
+      "think": {
+        "name": "Думать",
+        "description": "Базовое рассуждение"
+      },
+      "think_hard": {
+        "name": "Глубоко думать",
+        "description": "Более глубокий анализ"
+      },
+      "think_harder": {
+        "name": "Очень глубоко думать",
+        "description": "Обширное рассуждение"
+      },
+      "ultrathink": {
+        "name": "Ультра-мышление",
+        "description": "Максимальные вычисления"
+      }
+    },
+    "tooltips": {
+      "attachFiles": "Прикрепить файлы",
+      "slashCommands": "Slash-команды",
+      "settings": "Настройки",
+      "send": "Отправить сообщение (Enter)",
+      "cancel": "Остановить генерацию",
+      "expand": "Развернуть (Ctrl+Shift+E)",
+      "collapse": "Свернуть"
+    },
+    "placeholder": "Сообщение Claude (@ для файлов, / для команд)...",
+    "placeholderExpanded": "Введите ваше сообщение..."
   }
 }
-

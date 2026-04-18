@@ -581,5 +581,105 @@
     "localHooksDesc": "本地钩子存储在 .claude/settings.local.json 中，不会提交到版本控制，适合个人偏好设置。",
     "runningConfirmLeave": "智能体正在运行中。如果您离开此页面，智能体将在后台继续运行。您可以在 CC 智能体的「运行中的会话」标签页中查看运行中的会话。\n\n是否继续？",
     "executing": "执行中..."
+  },
+  "promptInput": {
+    "models": {
+      "sonnet": {
+        "name": "Claude 4 Sonnet",
+        "description": "更快速，适合大多数任务"
+      },
+      "opus": {
+        "name": "Claude 4 Opus",
+        "description": "更强大，适合复杂任务"
+      }
+    },
+    "thinkingModes": {
+      "auto": {
+        "name": "自动",
+        "description": "让 Claude 自行决定"
+      },
+      "think": {
+        "name": "思考",
+        "description": "基础推理"
+      },
+      "think_hard": {
+        "name": "深度思考",
+        "description": "更深入的分析"
+      },
+      "think_harder": {
+        "name": "极度思考",
+        "description": "广泛推理"
+      },
+      "ultrathink": {
+        "name": "超级思考",
+        "description": "最大计算量"
+      }
+    },
+    "tooltips": {
+      "attachFiles": "附加文件",
+      "slashCommands": "斜杠命令",
+      "settings": "设置",
+      "send": "发送消息 (Enter)",
+      "cancel": "停止生成",
+      "expand": "展开 (Ctrl+Shift+E)",
+      "collapse": "收起",
+      "sessionTimeline": "会话时间线",
+      "copyConversation": "复制对话",
+      "checkpointSettings": "检查点设置"
+    },
+    "placeholder": "输入消息... (@ 附加文件，/ 使用命令)",
+    "placeholderExpanded": "输入您的消息...",
+    "copyOptions": {
+      "markdown": "复制为 Markdown",
+      "jsonl": "复制为 JSONL"
+    }
+  },
+  "timeline": {
+    "title": "会话时间线"
+  },
+  "checkpointSettings": {
+    "title": "检查点设置",
+    "description": "管理会话检查点和恢复",
+    "experimental": {
+      "title": "实验性功能",
+      "warning": "检查点功能可能影响目录结构或导致数据丢失，请谨慎使用。"
+    },
+    "autoCheckpoint": {
+      "label": "自动检查点",
+      "description": "根据所选策略自动创建检查点"
+    },
+    "strategy": {
+      "label": "检查点策略",
+      "descriptions": {
+        "manual": "仅手动创建检查点",
+        "perPrompt": "每次用户提示后创建检查点",
+        "perToolUse": "每次工具使用后创建检查点",
+        "smart": "在破坏性操作后创建检查点"
+      }
+    },
+    "strategies": {
+      "manual": "仅手动",
+      "perPrompt": "每次提示后",
+      "perToolUse": "工具使用后",
+      "smart": "智能（推荐）"
+    },
+    "saveButton": "保存设置",
+    "saving": "保存中...",
+    "storage": {
+      "title": "存储管理",
+      "totalCheckpoints": "检查点总数",
+      "keepRecent": "保留最近的检查点",
+      "cleanupButton": "清理",
+      "cleanupDescription": "删除旧检查点，仅保留最近的 {{count}} 个"
+    }
+  },
+  "systemInitialized": {
+    "title": "系统已初始化",
+    "sessionId": "会话 ID",
+    "model": "模型",
+    "workingDirectory": "工作目录",
+    "availableTools": "可用工具",
+    "mcpServices": "MCP 服务",
+    "noTools": "无可用工具"
   }
 }

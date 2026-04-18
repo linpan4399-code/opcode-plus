@@ -581,6 +581,50 @@
     "failedInsert": "행 삽입 실패",
     "failedExecuteSql": "SQL 실행 실패",
     "failedReset": "데이터베이스 초기화 실패"
+  },
+  "promptInput": {
+    "models": {
+      "sonnet": {
+        "name": "Claude 4 Sonnet",
+        "description": "빠르고 효율적, 대부분의 작업에 적합"
+      },
+      "opus": {
+        "name": "Claude 4 Opus",
+        "description": "더 강력함, 복잡한 작업에 적합"
+      }
+    },
+    "thinkingModes": {
+      "auto": {
+        "name": "자동",
+        "description": "Claude가 결정하도록 함"
+      },
+      "think": {
+        "name": "생각",
+        "description": "기본 추론"
+      },
+      "think_hard": {
+        "name": "깊이 생각",
+        "description": "더 깊은 분석"
+      },
+      "think_harder": {
+        "name": "매우 깊이 생각",
+        "description": "광범위한 추론"
+      },
+      "ultrathink": {
+        "name": "초고속 생각",
+        "description": "최대 계산량"
+      }
+    },
+    "tooltips": {
+      "attachFiles": "파일 첨부",
+      "slashCommands": "슬래시 명령",
+      "settings": "설정",
+      "send": "메시지 보내기 (Enter)",
+      "cancel": "생성 중지",
+      "expand": "확장 (Ctrl+Shift+E)",
+      "collapse": "축소"
+    },
+    "placeholder": "메시지 입력... (@ 파일, / 명령)",
+    "placeholderExpanded": "메시지를 입력하세요..."
   }
 }
-

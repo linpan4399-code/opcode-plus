@@ -617,6 +617,50 @@
     "localHooksDesc": "الخطافات المحلية مخزنة في .claude/settings.local.json وغير مضمنة في التحكم بالإصدار، مثالية للتفضيلات الشخصية.",
     "runningConfirmLeave": "وكيل قيد التشغيل حالياً. إذا انتقلت بعيداً، سيستمر الوكيل في العمل في الخلفية. يمكنك عرض الجلسات قيد التشغيل في تبويب 'الجلسات قيد التشغيل' ضمن وكلاء CC.\n\nهل تريد المتابعة؟",
     "executing": "جارٍ التنفيذ..."
+  },
+  "promptInput": {
+    "models": {
+      "sonnet": {
+        "name": "Claude 4 Sonnet",
+        "description": "أسرع وأكثر كفاءة لمعظم المهام"
+      },
+      "opus": {
+        "name": "Claude 4 Opus",
+        "description": "أكثر قدرة، أفضل للمهام المعقدة"
+      }
+    },
+    "thinkingModes": {
+      "auto": {
+        "name": "تلقائي",
+        "description": "دع Claude يقرر"
+      },
+      "think": {
+        "name": "تفكير",
+        "description": "استدلال أساسي"
+      },
+      "think_hard": {
+        "name": "تفكير عميق",
+        "description": "تحليل أعمق"
+      },
+      "think_harder": {
+        "name": "تفكير عميق جداً",
+        "description": "استدلال موسع"
+      },
+      "ultrathink": {
+        "name": "تفكير فائق",
+        "description": "أقصى حساب"
+      }
+    },
+    "tooltips": {
+      "attachFiles": "إرفاق ملفات",
+      "slashCommands": "أوامر الشرطة المائلة",
+      "settings": "الإعدادات",
+      "send": "إرسال رسالة (Enter)",
+      "cancel": "إيقاف التوليد",
+      "expand": "توسيع (Ctrl+Shift+E)",
+      "collapse": "طي"
+    },
+    "placeholder": "رسالة إلى Claude (@ للملفات، / للأوامر)...",
+    "placeholderExpanded": "اكتب رسالتك..."
   }
 }
-

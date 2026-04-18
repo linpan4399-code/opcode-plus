@@ -581,6 +581,50 @@
     "failedInsert": "Falha ao inserir linha",
     "failedExecuteSql": "Falha ao executar SQL",
     "failedReset": "Falha ao resetar banco de dados"
+  },
+  "promptInput": {
+    "models": {
+      "sonnet": {
+        "name": "Claude 4 Sonnet",
+        "description": "Mais rápido, eficiente para a maioria das tarefas"
+      },
+      "opus": {
+        "name": "Claude 4 Opus",
+        "description": "Mais capaz, melhor para tarefas complexas"
+      }
+    },
+    "thinkingModes": {
+      "auto": {
+        "name": "Auto",
+        "description": "Deixar Claude decidir"
+      },
+      "think": {
+        "name": "Pensar",
+        "description": "Raciocínio básico"
+      },
+      "think_hard": {
+        "name": "Pensar profundamente",
+        "description": "Análise mais profunda"
+      },
+      "think_harder": {
+        "name": "Pensar muito profundamente",
+        "description": "Raciocínio extenso"
+      },
+      "ultrathink": {
+        "name": "Ultra-pensamento",
+        "description": "Cálculo máximo"
+      }
+    },
+    "tooltips": {
+      "attachFiles": "Anexar arquivos",
+      "slashCommands": "Comandos slash",
+      "settings": "Configurações",
+      "send": "Enviar mensagem (Enter)",
+      "cancel": "Parar geração",
+      "expand": "Expandir (Ctrl+Shift+E)",
+      "collapse": "Recolher"
+    },
+    "placeholder": "Mensagem para Claude (@ para arquivos, / para comandos)...",
+    "placeholderExpanded": "Digite sua mensagem..."
   }
 }
-

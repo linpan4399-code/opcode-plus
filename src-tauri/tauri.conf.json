@@ -5,7 +5,7 @@
   "identifier": "opcodePlus.community.fork",
   "build": {
     "beforeDevCommand": "",
-    "beforeBuildCommand": "bun run build",
+    "beforeBuildCommand": "npm run build",
     "frontendDist": "../dist"
   },
   "app": {

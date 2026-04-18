@@ -581,5 +581,50 @@
     "localHooksDesc": "Local hooks are stored in .claude/settings.local.json and are not committed to version control, perfect for personal preferences.",
     "runningConfirmLeave": "An agent is currently running. If you navigate away, the agent will continue running in the background. You can view running sessions in the 'Running Sessions' tab within CC Agents.\n\nDo you want to continue?",
     "executing": "Executing..."
+  },
+  "promptInput": {
+    "models": {
+      "sonnet": {
+        "name": "Claude 4 Sonnet",
+        "description": "Faster, efficient for most tasks"
+      },
+      "opus": {
+        "name": "Claude 4 Opus",
+        "description": "More capable, better for complex tasks"
+      }
+    },
+    "thinkingModes": {
+      "auto": {
+        "name": "Auto",
+        "description": "Let Claude decide"
+      },
+      "think": {
+        "name": "Think",
+        "description": "Basic reasoning"
+      },
+      "think_hard": {
+        "name": "Think Hard",
+        "description": "Deeper analysis"
+      },
+      "think_harder": {
+        "name": "Think Harder",
+        "description": "Extensive reasoning"
+      },
+      "ultrathink": {
+        "name": "Ultrathink",
+        "description": "Maximum computation"
+      }
+    },
+    "tooltips": {
+      "attachFiles": "Attach files",
+      "slashCommands": "Slash commands",
+      "settings": "Settings",
+      "send": "Send message (Enter)",
+      "cancel": "Stop generation",
+      "expand": "Expand (Ctrl+Shift+E)",
+      "collapse": "Collapse"
+    },
+    "placeholder": "Message Claude (@ for files, / for commands)...",
+    "placeholderExpanded": "Type your message..."
   }
 }

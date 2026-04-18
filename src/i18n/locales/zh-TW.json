@@ -581,5 +581,50 @@
     "localHooksDesc": "本機鉤子儲存在 .claude/settings.local.json 中，不會提交到版本控制，適合個人偏好設定。",
     "runningConfirmLeave": "智能體正在執行中。如果您離開此頁面，智能體將在背景繼續執行。您可以在 CC 智能體的「執行中的工作階段」分頁中檢視執行中的工作階段。\n\n是否繼續？",
     "executing": "執行中..."
+  },
+  "promptInput": {
+    "models": {
+      "sonnet": {
+        "name": "Claude 4 Sonnet",
+        "description": "更快速，適合大多數任務"
+      },
+      "opus": {
+        "name": "Claude 4 Opus",
+        "description": "更強大，適合複雜任務"
+      }
+    },
+    "thinkingModes": {
+      "auto": {
+        "name": "自動",
+        "description": "讓 Claude 自行決定"
+      },
+      "think": {
+        "name": "思考",
+        "description": "基礎推理"
+      },
+      "think_hard": {
+        "name": "深度思考",
+        "description": "更深入的分析"
+      },
+      "think_harder": {
+        "name": "極度思考",
+        "description": "廣泛推理"
+      },
+      "ultrathink": {
+        "name": "超級思考",
+        "description": "最大計算量"
+      }
+    },
+    "tooltips": {
+      "attachFiles": "附加檔案",
+      "slashCommands": "斜線命令",
+      "settings": "設定",
+      "send": "發送訊息 (Enter)",
+      "cancel": "停止生成",
+      "expand": "展開 (Ctrl+Shift+E)",
+      "collapse": "收起"
+    },
+    "placeholder": "輸入訊息... (@ 附加檔案，/ 使用命令)",
+    "placeholderExpanded": "輸入您的訊息..."
   }
 }

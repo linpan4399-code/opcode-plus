@@ -581,6 +581,50 @@
     "localHooksDesc": "ローカルフックは.claude/settings.local.jsonに保存され、バージョン管理にコミットされないため、個人設定に最適です。",
     "runningConfirmLeave": "エージェントが実行中です。ページを離れても、エージェントはバックグラウンドで実行を続けます。実行中のセッションはCCエージェントの「実行中のセッション」タブで確認できます。\n\n続行しますか？",
     "executing": "実行中..."
+  },
+  "promptInput": {
+    "models": {
+      "sonnet": {
+        "name": "Claude 4 Sonnet",
+        "description": "高速で効率的、ほとんどのタスクに最適"
+      },
+      "opus": {
+        "name": "Claude 4 Opus",
+        "description": "より高性能、複雑なタスクに最適"
+      }
+    },
+    "thinkingModes": {
+      "auto": {
+        "name": "自動",
+        "description": "Claude に決定させる"
+      },
+      "think": {
+        "name": "思考",
+        "description": "基本的な推論"
+      },
+      "think_hard": {
+        "name": "深く思考",
+        "description": "より深い分析"
+      },
+      "think_harder": {
+        "name": "さらに深く思考",
+        "description": "広範な推論"
+      },
+      "ultrathink": {
+        "name": "超思考",
+        "description": "最大計算量"
+      }
+    },
+    "tooltips": {
+      "attachFiles": "ファイルを添付",
+      "slashCommands": "スラッシュコマンド",
+      "settings": "設定",
+      "send": "メッセージを送信 (Enter)",
+      "cancel": "生成を停止",
+      "expand": "展開 (Ctrl+Shift+E)",
+      "collapse": "折りたたむ"
+    },
+    "placeholder": "メッセージを入力... (@ でファイル、/ でコマンド)",
+    "placeholderExpanded": "メッセージを入力..."
   }
 }
-

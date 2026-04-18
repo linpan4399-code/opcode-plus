@@ -85,6 +85,24 @@ html {
   background-color: var(--color-muted-foreground);
 }
 
+/* Smooth scroll with momentum */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Enhanced scroll performance */
+* {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto;
+  }
+}
+
 /* Dark theme configuration */
 @theme {
   /* Colors */

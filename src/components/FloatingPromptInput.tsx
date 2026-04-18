@@ -28,6 +28,7 @@ import {
   createCompositionHandlers,
   type IMECompositionRefs,
 } from "@/utils/ime";
+import { useTranslation } from "react-i18next";
 
 // Conditional import for Tauri webview window
 let tauriGetCurrentWebviewWindow: any;
@@ -100,58 +101,6 @@ type ThinkingModeConfig = {
   shortName: string;
 };
 
-const THINKING_MODES: ThinkingModeConfig[] = [
-  {
-    id: "auto",
-    name: "Auto",
-    description: "Let Claude decide",
-    level: 0,
-    icon: <Sparkles className="h-3.5 w-3.5" />,
-    color: "text-muted-foreground",
-    shortName: "A"
-  },
-  {
-    id: "think",
-    name: "Think",
-    description: "Basic reasoning",
-    level: 1,
-    phrase: "think",
-    icon: <Lightbulb className="h-3.5 w-3.5" />,
-    color: "text-primary",
-    shortName: "T"
-  },
-  {
-    id: "think_hard",
-    name: "Think Hard",
-    description: "Deeper analysis",
-    level: 2,
-    phrase: "think hard",
-    icon: <Brain className="h-3.5 w-3.5" />,
-    color: "text-primary",
-    shortName: "T+"
-  },
-  {
-    id: "think_harder",
-    name: "Think Harder",
-    description: "Extensive reasoning",
-    level: 3,
-    phrase: "think harder",
-    icon: <Cpu className="h-3.5 w-3.5" />,
-    color: "text-primary",
-    shortName: "T++"
-  },
-  {
-    id: "ultrathink",
-    name: "Ultrathink",
-    description: "Maximum computation",
-    level: 4,
-    phrase: "ultrathink",
-    icon: <Rocket className="h-3.5 w-3.5" />,
-    color: "text-primary",
-    shortName: "Ultra"
-  }
-];
-
 /**
  * ThinkingModeIndicator component - Shows visual indicator bars for thinking level
  */
@@ -186,25 +135,6 @@ type Model = {
   color: string;
 };
 
-const MODELS: Model[] = [
-  {
-    id: "sonnet",
-    name: "Claude 4 Sonnet",
-    description: "Faster, efficient for most tasks",
-    icon: <Zap className="h-3.5 w-3.5" />,
-    shortName: "S",
-    color: "text-primary"
-  },
-  {
-    id: "opus",
-    name: "Claude 4 Opus",
-    description: "More capable, better for complex tasks",
-    icon: <Zap className="h-3.5 w-3.5" />,
-    shortName: "O",
-    color: "text-primary"
-  }
-];
-
 /**
  * FloatingPromptInput component - Fixed position prompt input with model picker
  * 
@@ -229,6 +159,7 @@ const FloatingPromptInputInner = (
   }: FloatingPromptInputProps,
   ref: React.Ref<FloatingPromptInputRef>,
 ) => {
+  const { t } = useTranslation();
   const [prompt, setPrompt] = useState("");
   const [selectedModel, setSelectedModel] = useState<"sonnet" | "opus">(defaultModel);
   const [selectedThinkingMode, setSelectedThinkingMode] = useState<ThinkingMode>("auto");
@@ -251,6 +182,79 @@ const FloatingPromptInputInner = (
   const isComposingRef = useRef(false);
   // Flag to skip the first Enter after compositionend (one-shot)
   const justEndedRef = useRef(false);
+
+  // Thinking modes with i18n
+  const THINKING_MODES: ThinkingModeConfig[] = [
+    {
+      id: "auto",
+      name: t("promptInput.thinkingModes.auto.name"),
+      description: t("promptInput.thinkingModes.auto.description"),
+      level: 0,
+      icon: <Sparkles className="h-3.5 w-3.5" />,
+      color: "text-muted-foreground",
+      shortName: "A"
+    },
+    {
+      id: "think",
+      name: t("promptInput.thinkingModes.think.name"),
+      description: t("promptInput.thinkingModes.think.description"),
+      level: 1,
+      phrase: "think",
+      icon: <Lightbulb className="h-3.5 w-3.5" />,
+      color: "text-primary",
+      shortName: "T"
+    },
+    {
+      id: "think_hard",
+      name: t("promptInput.thinkingModes.think_hard.name"),
+      description: t("promptInput.thinkingModes.think_hard.description"),
+      level: 2,
+      phrase: "think hard",
+      icon: <Brain className="h-3.5 w-3.5" />,
+      color: "text-primary",
+      shortName: "T+"
+    },
+    {
+      id: "think_harder",
+      name: t("promptInput.thinkingModes.think_harder.name"),
+      description: t("promptInput.thinkingModes.think_harder.description"),
+      level: 3,
+      phrase: "think harder",
+      icon: <Cpu className="h-3.5 w-3.5" />,
+      color: "text-primary",
+      shortName: "T++"
+    },
+    {
+      id: "ultrathink",
+      name: t("promptInput.thinkingModes.ultrathink.name"),
+      description: t("promptInput.thinkingModes.ultrathink.description"),
+      level: 4,
+      phrase: "ultrathink",
+      icon: <Rocket className="h-3.5 w-3.5" />,
+      color: "text-primary",
+      shortName: "Ultra"
+    }
+  ];
+
+  // Models with i18n
+  const MODELS: Model[] = [
+    {
+      id: "sonnet",
+      name: t("promptInput.models.sonnet.name"),
+      description: t("promptInput.models.sonnet.description"),
+      icon: <Zap className="h-3.5 w-3.5" />,
+      shortName: "S",
+      color: "text-primary"
+    },
+    {
+      id: "opus",
+      name: t("promptInput.models.opus.name"),
+      description: t("promptInput.models.opus.description"),
+      icon: <Zap className="h-3.5 w-3.5" />,
+      shortName: "O",
+      color: "text-primary"
+    }
+  ];
 
   // Expose a method to add images programmatically
   React.useImperativeHandle(
@@ -853,7 +857,7 @@ const FloatingPromptInputInner = (
             >
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-medium">Compose your prompt</h3>
-                <TooltipSimple content="Minimize" side="bottom">
+                <TooltipSimple content={t("promptInput.tooltips.collapse")} side="bottom">
                   <motion.div
                     whileTap={{ scale: 0.97 }}
                     transition={{ duration: 0.15 }}
@@ -1016,7 +1020,7 @@ const FloatingPromptInputInner = (
                   </div>
                 </div>
 
-                <TooltipSimple content="Send message" side="top">
+                <TooltipSimple content={t("promptInput.tooltips.send")} side="top">
                   <motion.div
                     whileTap={{ scale: 0.97 }}
                     transition={{ duration: 0.15 }}
@@ -1158,7 +1162,7 @@ const FloatingPromptInputInner = (
                           </motion.div>
                         </TooltipTrigger>
                         <TooltipContent side="top">
-                          <p className="text-xs font-medium">Thinking: {THINKING_MODES.find(m => m.id === selectedThinkingMode)?.name || "Auto"}</p>
+                          <p className="text-xs font-medium">{t("promptInput.thinkingModes.auto.name")}: {THINKING_MODES.find(m => m.id === selectedThinkingMode)?.name || t("promptInput.thinkingModes.auto.name")}</p>
                           <p className="text-xs text-muted-foreground">{THINKING_MODES.find(m => m.id === selectedThinkingMode)?.description}</p>
                         </TooltipContent>
                       </Tooltip>
@@ -1215,8 +1219,8 @@ const FloatingPromptInputInner = (
                   onPaste={handlePaste}
                   placeholder={
                     dragActive
-                      ? "Drop images here..."
-                      : "Message Claude (@ for files, / for commands)..."
+                      ? t("promptInput.placeholder")
+                      : t("promptInput.placeholder")
                   }
                   disabled={disabled}
                   className={cn(
@@ -1232,7 +1236,7 @@ const FloatingPromptInputInner = (
 
                 {/* Action buttons inside input - fixed at bottom right */}
                 <div className="absolute right-1.5 bottom-1.5 flex items-center gap-0.5">
-                  <TooltipSimple content="Expand (Ctrl+Shift+E)" side="top">
+                  <TooltipSimple content={t("promptInput.tooltips.expand")} side="top">
                     <motion.div
                       whileTap={{ scale: 0.97 }}
                       transition={{ duration: 0.15 }}
@@ -1249,7 +1253,7 @@ const FloatingPromptInputInner = (
                     </motion.div>
                   </TooltipSimple>
 
-                  <TooltipSimple content={isLoading ? "Stop generation" : "Send message (Enter)"} side="top">
+                  <TooltipSimple content={isLoading ? t("promptInput.tooltips.cancel") : t("promptInput.tooltips.send")} side="top">
                     <motion.div
                       whileTap={{ scale: 0.97 }}
                       transition={{ duration: 0.15 }}

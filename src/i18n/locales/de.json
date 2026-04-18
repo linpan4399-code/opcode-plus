@@ -581,6 +581,50 @@
     "failedInsert": "Zeile konnte nicht eingefügt werden",
     "failedExecuteSql": "SQL konnte nicht ausgeführt werden",
     "failedReset": "Datenbank konnte nicht zurückgesetzt werden"
+  },
+  "promptInput": {
+    "models": {
+      "sonnet": {
+        "name": "Claude 4 Sonnet",
+        "description": "Schneller, effizient für die meisten Aufgaben"
+      },
+      "opus": {
+        "name": "Claude 4 Opus",
+        "description": "Leistungsfähiger, besser für komplexe Aufgaben"
+      }
+    },
+    "thinkingModes": {
+      "auto": {
+        "name": "Auto",
+        "description": "Claude entscheiden lassen"
+      },
+      "think": {
+        "name": "Denken",
+        "description": "Grundlegende Überlegung"
+      },
+      "think_hard": {
+        "name": "Tief denken",
+        "description": "Tiefere Analyse"
+      },
+      "think_harder": {
+        "name": "Sehr tief denken",
+        "description": "Umfassende Überlegung"
+      },
+      "ultrathink": {
+        "name": "Ultradenken",
+        "description": "Maximale Berechnung"
+      }
+    },
+    "tooltips": {
+      "attachFiles": "Dateien anhängen",
+      "slashCommands": "Slash-Befehle",
+      "settings": "Einstellungen",
+      "send": "Nachricht senden (Enter)",
+      "cancel": "Generierung stoppen",
+      "expand": "Erweitern (Ctrl+Shift+E)",
+      "collapse": "Einklappen"
+    },
+    "placeholder": "Nachricht an Claude (@ für Dateien, / für Befehle)...",
+    "placeholderExpanded": "Geben Sie Ihre Nachricht ein..."
   }
 }
-
