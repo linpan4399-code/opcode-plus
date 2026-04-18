@@ -62,6 +62,7 @@ jobs:
         run: |
           mkdir -p dmg_stage
           cp -R "${{ steps.locate.outputs.app_path }}" dmg_stage/
+          ln -s /Applications dmg_stage/Applications
           hdiutil create -volname "opcodePlus Installer" \
             -srcfolder dmg_stage \
             -ov -format UDZO opcodePlus.dmg
