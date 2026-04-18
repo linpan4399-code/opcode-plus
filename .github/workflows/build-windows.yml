@@ -48,10 +48,12 @@ jobs:
             ForEach-Object { Copy-Item $_.FullName dist\windows-x86_64\ }
 
           Push-Location dist\windows-x86_64
-          Get-ChildItem -File | ForEach-Object {
-            $hash = (Get-FileHash $_.Name -Algorithm SHA256).Hash.ToLower()
-            "$hash  $($_.Name)"
-          } | Out-File -Encoding ascii checksums.txt
+          $files = @(Get-ChildItem -File | Where-Object { $_.Name -ne 'checksums.txt' })
+          $lines = foreach ($f in $files) {
+            $hash = (Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256).Hash.ToLower()
+            "$hash  $($f.Name)"
+          }
+          Set-Content -Path checksums.txt -Value $lines -Encoding ascii
           Pop-Location
 
           Write-Host "Artifacts:"
