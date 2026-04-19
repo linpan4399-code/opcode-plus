@@ -92,17 +92,6 @@ html {
   overscroll-behavior: contain;
 }
 
-/* Enhanced scroll performance */
-* {
-  scroll-behavior: smooth;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    scroll-behavior: auto;
-  }
-}
-
 /* Dark theme configuration */
 @theme {
   /* Colors */
