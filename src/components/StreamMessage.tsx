@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { 
-  Terminal, 
-  User, 
-  Bot, 
-  AlertCircle, 
-  CheckCircle2
+import {
+  Terminal,
+  User,
+  Bot,
+  AlertCircle,
+  CheckCircle2,
+  ChevronRight,
+  FileText,
+  FilePenLine,
+  Folder,
+  Search,
+  Globe,
+  Hash,
+  ListChecks,
+  CircleDot,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -41,6 +50,98 @@ import {
   WebSearchWidget,
   WebFetchWidget
 } from "./ToolWidgets";
+
+/**
+ * Compact collapsible wrapper for any tool-invocation widget.
+ * Collapsed by default; clicking the summary bar toggles full widget visibility.
+ * The actual tool-widget JSX is only mounted when expanded, so heavy rendering
+ * (markdown, syntax highlighting, large diff views) is deferred until needed.
+ */
+const toolMeta = (toolName: string, input: any): { icon: React.ReactNode; label: string; summary?: string } => {
+  const lower = (toolName || "").toLowerCase();
+  if (lower.startsWith("mcp__")) {
+    const parts = toolName.split("__");
+    return {
+      icon: <Hash className="h-3.5 w-3.5 text-purple-500" />,
+      label: parts.slice(1).join(".") || toolName,
+      summary: (() => {
+        try { return JSON.stringify(input).slice(0, 120); } catch { return undefined; }
+      })(),
+    };
+  }
+  switch (lower) {
+    case "bash":
+      return { icon: <Terminal className="h-3.5 w-3.5 text-green-500" />, label: "Bash", summary: input?.command?.split("\n")[0]?.slice(0, 160) };
+    case "edit":
+      return { icon: <FilePenLine className="h-3.5 w-3.5 text-blue-500" />, label: "Edit", summary: input?.file_path };
+    case "multiedit":
+      return { icon: <FilePenLine className="h-3.5 w-3.5 text-blue-500" />, label: "MultiEdit", summary: `${input?.file_path ?? ""} · ${input?.edits?.length ?? 0} edits` };
+    case "read":
+      return { icon: <FileText className="h-3.5 w-3.5 text-orange-500" />, label: "Read", summary: input?.file_path };
+    case "write":
+      return { icon: <FileText className="h-3.5 w-3.5 text-emerald-500" />, label: "Write", summary: input?.file_path };
+    case "ls":
+      return { icon: <Folder className="h-3.5 w-3.5 text-amber-500" />, label: "LS", summary: input?.path };
+    case "glob":
+      return { icon: <Search className="h-3.5 w-3.5 text-cyan-500" />, label: "Glob", summary: input?.pattern };
+    case "grep":
+      return { icon: <Search className="h-3.5 w-3.5 text-cyan-500" />, label: "Grep", summary: input?.pattern };
+    case "task":
+      return { icon: <CircleDot className="h-3.5 w-3.5 text-violet-500" />, label: "Task", summary: input?.description };
+    case "todowrite":
+      return { icon: <ListChecks className="h-3.5 w-3.5 text-amber-500" />, label: "TodoWrite", summary: `${input?.todos?.length ?? 0} todos` };
+    case "todoread":
+      return { icon: <ListChecks className="h-3.5 w-3.5 text-amber-500" />, label: "TodoRead" };
+    case "websearch":
+      return { icon: <Globe className="h-3.5 w-3.5 text-cyan-500" />, label: "WebSearch", summary: input?.query };
+    case "webfetch":
+      return { icon: <Globe className="h-3.5 w-3.5 text-cyan-500" />, label: "WebFetch", summary: input?.url };
+    default:
+      return { icon: <Hash className="h-3.5 w-3.5 text-muted-foreground" />, label: toolName || "Tool" };
+  }
+};
+
+const CollapsibleToolWidget: React.FC<{
+  toolName: string;
+  input: any;
+  running: boolean;
+  isError?: boolean;
+  children: React.ReactNode;
+}> = ({ toolName, input, running, isError, children }) => {
+  const [expanded, setExpanded] = useState(false);
+  const meta = toolMeta(toolName, input);
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        className={cn(
+          "w-full px-3 py-2 flex items-center gap-2 rounded-lg border bg-muted/30 hover:bg-muted/60 transition-colors text-xs text-left",
+          expanded && "rounded-b-none border-b-0",
+          isError && "border-[color:var(--color-destructive)]/40"
+        )}
+      >
+        <ChevronRight className={cn("h-3.5 w-3.5 text-muted-foreground transition-transform flex-shrink-0", expanded && "rotate-90")} />
+        {meta.icon}
+        <span className="font-medium flex-shrink-0">{meta.label}</span>
+        {meta.summary && (
+          <span className="text-muted-foreground truncate font-mono">{meta.summary}</span>
+        )}
+        {running && (
+          <span className="ml-auto flex items-center gap-1 text-muted-foreground flex-shrink-0">
+            <span className="h-1.5 w-1.5 bg-green-500 rounded-full animate-pulse" />
+            <span>Running</span>
+          </span>
+        )}
+        {!running && isError && (
+          <span className="ml-auto text-[color:var(--color-destructive)] flex-shrink-0">Error</span>
+        )}
+      </button>
+      {expanded && <div>{children}</div>}
+    </div>
+  );
+};
 
 interface StreamMessageProps {
   message: ClaudeStreamMessage;
@@ -276,11 +377,23 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
                       return null;
                     };
                     
-                    // Render the tool widget
+                    // Render the tool widget (collapsed by default; click to expand)
                     const widget = renderToolWidget();
                     if (widget) {
                       renderedSomething = true;
-                      return <div key={idx}>{widget}</div>;
+                      const isErrorResult = toolResult?.is_error === true;
+                      return (
+                        <div key={idx}>
+                          <CollapsibleToolWidget
+                            toolName={content.name || toolName || ""}
+                            input={input}
+                            running={!toolResult}
+                            isError={isErrorResult}
+                          >
+                            {widget}
+                          </CollapsibleToolWidget>
+                        </div>
+                      );
                     }
                     
                     // Fallback to basic tool display

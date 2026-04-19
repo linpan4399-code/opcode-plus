@@ -626,5 +626,71 @@
     },
     "placeholder": "Message Claude (@ for files, / for commands)...",
     "placeholderExpanded": "Type your message..."
+  },
+  "slashCommandPicker": {
+    "title": "Slash Commands",
+    "searching": "Searching: \"{{query}}\"",
+    "tabs": {
+      "default": "Built-in",
+      "custom": "Custom"
+    },
+    "loading": "Loading commands...",
+    "noCommandsFound": "No matching commands",
+    "noDefaultCommands": "No built-in commands available",
+    "defaultInfo": "Built-in Claude Code commands. Click one to insert it into the input.",
+    "noCustomCommands": "No custom commands yet",
+    "customInfo": "Create .md files in .claude/commands (project) or ~/.claude/commands (user).",
+    "scope": {
+      "user": "User Commands",
+      "project": "Project Commands",
+      "userNamespace": "User · {{namespace}}",
+      "projectNamespace": "Project · {{namespace}}",
+      "commands": "Commands"
+    },
+    "scopeBadge": {
+      "default": "Built-in",
+      "user": "User",
+      "project": "Project"
+    },
+    "argsBadge": "[args]",
+    "footerHint": "↑↓ Navigate · Enter Select · Esc Close",
+    "labels": {
+      "bash": "Bash",
+      "files": "Files",
+      "toolCount_one": "{{count}} tool",
+      "toolCount_other": "{{count}} tools"
+    },
+    "defaults": {
+      "add-dir": "Add additional working directories",
+      "agents": "Manage AI subagents for specialized tasks",
+      "bug": "Report bugs to Anthropic",
+      "clear": "Clear conversation history and free up context",
+      "compact": "Compact the conversation with optional focus instructions",
+      "config": "View or modify configuration",
+      "cost": "Show token usage statistics",
+      "doctor": "Check the health of your Claude Code installation",
+      "export": "Export the current conversation to a file",
+      "help": "Show Claude Code help and usage",
+      "hooks": "Manage hook scripts for tool events",
+      "ide": "Manage IDE integrations",
+      "init": "Initialize project with a CLAUDE.md guide file",
+      "login": "Switch Claude account",
+      "logout": "Sign out from the current Claude account",
+      "mcp": "Manage MCP server connections and authentication",
+      "memory": "Edit CLAUDE.md memory files",
+      "migrate-installer": "Migrate to the new Claude Code installer",
+      "model": "Select or change the active Claude model",
+      "permissions": "View or update tool permissions",
+      "pr_comments": "Fetch and show comments on a pull request",
+      "rename": "Rename the current session",
+      "resume": "Resume a previous session",
+      "review": "Request code review of recent changes",
+      "security-review": "Run a security review of pending changes",
+      "status": "Show account, model, and session status",
+      "terminal-setup": "Configure terminal integration (key bindings, etc.)",
+      "theme": "Change the color theme",
+      "upgrade": "Upgrade plan or update Claude Code",
+      "vim": "Toggle vim-style keybindings"
+    }
   }
 }

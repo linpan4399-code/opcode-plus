@@ -196,51 +196,58 @@ fn find_markdown_files(dir: &Path, files: &mut Vec<PathBuf>) -> Result<()> {
     Ok(())
 }
 
-/// Create default/built-in slash commands
+/// Create default/built-in slash commands.
+/// English descriptions are the fallback; the frontend may replace them with
+/// a localized version via i18n lookup keyed by command name.
+fn default_command(name: &str, description: &str, accepts_arguments: bool) -> SlashCommand {
+    SlashCommand {
+        id: format!("default-{}", name),
+        name: name.to_string(),
+        full_command: format!("/{}", name),
+        scope: "default".to_string(),
+        namespace: None,
+        file_path: "".to_string(),
+        content: description.to_string(),
+        description: Some(description.to_string()),
+        allowed_tools: vec![],
+        has_bash_commands: false,
+        has_file_references: false,
+        accepts_arguments,
+    }
+}
+
 fn create_default_commands() -> Vec<SlashCommand> {
     vec![
-        SlashCommand {
-            id: "default-add-dir".to_string(),
-            name: "add-dir".to_string(),
-            full_command: "/add-dir".to_string(),
-            scope: "default".to_string(),
-            namespace: None,
-            file_path: "".to_string(),
-            content: "Add additional working directories".to_string(),
-            description: Some("Add additional working directories".to_string()),
-            allowed_tools: vec![],
-            has_bash_commands: false,
-            has_file_references: false,
-            accepts_arguments: false,
-        },
-        SlashCommand {
-            id: "default-init".to_string(),
-            name: "init".to_string(),
-            full_command: "/init".to_string(),
-            scope: "default".to_string(),
-            namespace: None,
-            file_path: "".to_string(),
-            content: "Initialize project with CLAUDE.md guide".to_string(),
-            description: Some("Initialize project with CLAUDE.md guide".to_string()),
-            allowed_tools: vec![],
-            has_bash_commands: false,
-            has_file_references: false,
-            accepts_arguments: false,
-        },
-        SlashCommand {
-            id: "default-review".to_string(),
-            name: "review".to_string(),
-            full_command: "/review".to_string(),
-            scope: "default".to_string(),
-            namespace: None,
-            file_path: "".to_string(),
-            content: "Request code review".to_string(),
-            description: Some("Request code review".to_string()),
-            allowed_tools: vec![],
-            has_bash_commands: false,
-            has_file_references: false,
-            accepts_arguments: false,
-        },
+        default_command("add-dir", "Add additional working directories", true),
+        default_command("agents", "Manage AI subagents for specialized tasks", false),
+        default_command("bug", "Report bugs to Anthropic", true),
+        default_command("clear", "Clear conversation history and free up context", false),
+        default_command("compact", "Compact the conversation with optional focus instructions", true),
+        default_command("config", "View or modify configuration", false),
+        default_command("cost", "Show token usage statistics", false),
+        default_command("doctor", "Check the health of your Claude Code installation", false),
+        default_command("export", "Export the current conversation to a file", false),
+        default_command("help", "Show Claude Code help and usage", false),
+        default_command("hooks", "Manage hook scripts for tool events", false),
+        default_command("ide", "Manage IDE integrations", false),
+        default_command("init", "Initialize project with a CLAUDE.md guide file", false),
+        default_command("login", "Switch Claude account", false),
+        default_command("logout", "Sign out from the current Claude account", false),
+        default_command("mcp", "Manage MCP server connections and authentication", false),
+        default_command("memory", "Edit CLAUDE.md memory files", false),
+        default_command("migrate-installer", "Migrate to the new Claude Code installer", false),
+        default_command("model", "Select or change the active Claude model", false),
+        default_command("permissions", "View or update tool permissions", false),
+        default_command("pr_comments", "Fetch and show comments on a pull request", true),
+        default_command("rename", "Rename the current session", true),
+        default_command("resume", "Resume a previous session", false),
+        default_command("review", "Request code review of recent changes", false),
+        default_command("security-review", "Run a security review of pending changes", false),
+        default_command("status", "Show account, model, and session status", false),
+        default_command("terminal-setup", "Configure terminal integration (key bindings, etc.)", false),
+        default_command("theme", "Change the color theme", false),
+        default_command("upgrade", "Upgrade plan or update Claude Code", false),
+        default_command("vim", "Toggle vim-style keybindings", false),
     ]
 }
 

@@ -695,5 +695,71 @@
     "availableTools": "可用工具",
     "mcpServices": "MCP 服务",
     "noTools": "无可用工具"
+  },
+  "slashCommandPicker": {
+    "title": "斜杠命令",
+    "searching": "搜索中：\"{{query}}\"",
+    "tabs": {
+      "default": "内置",
+      "custom": "自定义"
+    },
+    "loading": "加载命令中...",
+    "noCommandsFound": "未找到匹配的命令",
+    "noDefaultCommands": "暂无内置命令",
+    "defaultInfo": "Claude Code 内置命令。点击一条将其插入输入框。",
+    "noCustomCommands": "尚无自定义命令",
+    "customInfo": "在 .claude/commands（项目）或 ~/.claude/commands（用户）下创建 .md 文件即可添加自定义命令。",
+    "scope": {
+      "user": "用户命令",
+      "project": "项目命令",
+      "userNamespace": "用户 · {{namespace}}",
+      "projectNamespace": "项目 · {{namespace}}",
+      "commands": "命令"
+    },
+    "scopeBadge": {
+      "default": "内置",
+      "user": "用户",
+      "project": "项目"
+    },
+    "argsBadge": "[参数]",
+    "footerHint": "↑↓ 导航 · Enter 选择 · Esc 关闭",
+    "labels": {
+      "bash": "Bash",
+      "files": "文件",
+      "toolCount_one": "{{count}} 个工具",
+      "toolCount_other": "{{count}} 个工具"
+    },
+    "defaults": {
+      "add-dir": "添加额外的工作目录",
+      "agents": "管理专用子代理（subagents）",
+      "bug": "向 Anthropic 反馈 bug",
+      "clear": "清空对话历史，释放上下文空间",
+      "compact": "压缩对话（可选带聚焦指令）",
+      "config": "查看或修改配置",
+      "cost": "显示 token 使用量统计",
+      "doctor": "检查 Claude Code 安装健康状态",
+      "export": "将当前对话导出到文件",
+      "help": "显示 Claude Code 帮助与用法",
+      "hooks": "管理工具事件的 hook 脚本",
+      "ide": "管理 IDE 集成",
+      "init": "初始化项目，生成 CLAUDE.md 指引文件",
+      "login": "切换 Claude 账号",
+      "logout": "退出当前 Claude 账号",
+      "mcp": "管理 MCP 服务连接与鉴权",
+      "memory": "编辑 CLAUDE.md 记忆文件",
+      "migrate-installer": "迁移到新版 Claude Code 安装器",
+      "model": "选择或切换当前模型",
+      "permissions": "查看或修改工具权限",
+      "pr_comments": "抓取并显示 PR 上的评论",
+      "rename": "重命名当前会话",
+      "resume": "恢复之前的会话",
+      "review": "请求对最近改动做代码审查",
+      "security-review": "对当前改动做安全审查",
+      "status": "显示账号、模型与会话状态",
+      "terminal-setup": "配置终端集成（快捷键等）",
+      "theme": "切换主题颜色",
+      "upgrade": "升级套餐或更新 Claude Code",
+      "vim": "切换 Vim 风格键位"
+    }
   }
 }

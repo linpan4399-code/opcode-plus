@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/lib/api";
@@ -79,13 +80,25 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
   initialQuery = "",
   className,
 }) => {
+  const { t } = useTranslation();
   const [commands, setCommands] = useState<SlashCommand[]>([]);
   const [filteredCommands, setFilteredCommands] = useState<SlashCommand[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState(initialQuery);
-  const [activeTab, setActiveTab] = useState<string>("custom");
+  const [activeTab, setActiveTab] = useState<string>("default");
+
+  // Resolve a command's description using i18n for built-in commands,
+  // falling back to the backend-provided description.
+  const localizedDescription = (cmd: SlashCommand): string | undefined => {
+    if (cmd.scope === "default") {
+      const key = `slashCommandPicker.defaults.${cmd.name}`;
+      const translated = t(key, { defaultValue: "" }) as string;
+      if (translated) return translated;
+    }
+    return cmd.description ?? undefined;
+  };
   
   const commandListRef = useRef<HTMLDivElement>(null);
   
@@ -241,13 +254,17 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
   const groupedCommands = filteredCommands.reduce((acc, cmd) => {
     let key: string;
     if (cmd.scope === "user") {
-      key = cmd.namespace ? `User Commands: ${cmd.namespace}` : "User Commands";
+      key = cmd.namespace
+        ? t("slashCommandPicker.scope.userNamespace", { namespace: cmd.namespace })
+        : t("slashCommandPicker.scope.user");
     } else if (cmd.scope === "project") {
-      key = cmd.namespace ? `Project Commands: ${cmd.namespace}` : "Project Commands";
+      key = cmd.namespace
+        ? t("slashCommandPicker.scope.projectNamespace", { namespace: cmd.namespace })
+        : t("slashCommandPicker.scope.project");
     } else {
-      key = cmd.namespace || "Commands";
+      key = cmd.namespace || t("slashCommandPicker.scope.commands");
     }
-    
+
     if (!acc[key]) {
       acc[key] = [];
     }
@@ -278,10 +295,10 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Command className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm font-medium">Slash Commands</span>
+            <span className="text-sm font-medium">{t("slashCommandPicker.title")}</span>
             {searchQuery && (
               <span className="text-xs text-muted-foreground">
-                Searching: "{searchQuery}"
+                {t("slashCommandPicker.searching", { query: searchQuery })}
               </span>
             )}
           </div>
@@ -299,8 +316,8 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
         <div className="mt-3">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="default">Default</TabsTrigger>
-              <TabsTrigger value="custom">Custom</TabsTrigger>
+              <TabsTrigger value="default">{t("slashCommandPicker.tabs.default")}</TabsTrigger>
+              <TabsTrigger value="custom">{t("slashCommandPicker.tabs.custom")}</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -310,7 +327,7 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
       <div className="flex-1 overflow-y-auto relative">
         {isLoading && (
           <div className="flex items-center justify-center h-full">
-            <span className="text-sm text-muted-foreground">Loading commands...</span>
+            <span className="text-sm text-muted-foreground">{t("slashCommandPicker.loading")}</span>
           </div>
         )}
 
@@ -330,11 +347,11 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
                   <div className="flex flex-col items-center justify-center h-full">
                     <Command className="h-8 w-8 text-muted-foreground mb-2" />
                     <span className="text-sm text-muted-foreground">
-                      {searchQuery ? 'No commands found' : 'No default commands available'}
+                      {searchQuery ? t("slashCommandPicker.noCommandsFound") : t("slashCommandPicker.noDefaultCommands")}
                     </span>
                     {!searchQuery && (
                       <p className="text-xs text-muted-foreground mt-2 text-center px-4">
-                        Default commands are built-in system commands
+                        {t("slashCommandPicker.defaultInfo")}
                       </p>
                     )}
                   </div>
@@ -367,12 +384,12 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
                                   {command.full_command}
                                 </span>
                                 <span className="text-xs text-muted-foreground px-1.5 py-0.5 bg-muted rounded">
-                                  {command.scope}
+                                  {t(`slashCommandPicker.scopeBadge.${command.scope}`, { defaultValue: command.scope })}
                                 </span>
                               </div>
-                              {command.description && (
+                              {localizedDescription(command) && (
                                 <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-                                  {command.description}
+                                  {localizedDescription(command)}
                                 </p>
                               )}
                             </div>
@@ -392,11 +409,11 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
                   <div className="flex flex-col items-center justify-center h-full">
                     <Search className="h-8 w-8 text-muted-foreground mb-2" />
                     <span className="text-sm text-muted-foreground">
-                      {searchQuery ? 'No commands found' : 'No custom commands available'}
+                      {searchQuery ? t("slashCommandPicker.noCommandsFound") : t("slashCommandPicker.noCustomCommands")}
                     </span>
                     {!searchQuery && (
                       <p className="text-xs text-muted-foreground mt-2 text-center px-4">
-                        Create commands in <code className="px-1">.claude/commands/</code> or <code className="px-1">~/.claude/commands/</code>
+                        {t("slashCommandPicker.customInfo")}
                       </p>
                     )}
                   </div>
@@ -433,33 +450,33 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
                                   </span>
                                   {command.accepts_arguments && (
                                     <span className="text-xs text-muted-foreground">
-                                      [args]
+                                      {t("slashCommandPicker.argsBadge")}
                                     </span>
                                   )}
                                 </div>
                                 
-                                {command.description && (
+                                {localizedDescription(command) && (
                                   <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                                    {command.description}
+                                    {localizedDescription(command)}
                                   </p>
                                 )}
                                 
                                 <div className="flex items-center gap-3 mt-1">
                                   {command.allowed_tools.length > 0 && (
                                     <span className="text-xs text-muted-foreground">
-                                      {command.allowed_tools.length} tool{command.allowed_tools.length === 1 ? '' : 's'}
+                                      {t("slashCommandPicker.labels.toolCount", { count: command.allowed_tools.length })}
                                     </span>
                                   )}
-                                  
+
                                   {command.has_bash_commands && (
                                     <span className="text-xs text-blue-600 dark:text-blue-400">
-                                      Bash
+                                      {t("slashCommandPicker.labels.bash")}
                                     </span>
                                   )}
-                                  
+
                                   {command.has_file_references && (
                                     <span className="text-xs text-green-600 dark:text-green-400">
-                                      Files
+                                      {t("slashCommandPicker.labels.files")}
                                     </span>
                                   )}
                                 </div>
@@ -474,8 +491,8 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
                         {Object.entries(groupedCommands).map(([groupKey, groupCommands]) => (
                           <div key={groupKey}>
                             <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider px-3 mb-1 flex items-center gap-2">
-                              {groupKey.startsWith("User Commands") && <User className="h-3 w-3" />}
-                              {groupKey.startsWith("Project Commands") && <Building2 className="h-3 w-3" />}
+                              {groupCommands[0]?.scope === "user" && <User className="h-3 w-3" />}
+                              {groupCommands[0]?.scope === "project" && <Building2 className="h-3 w-3" />}
                               {groupKey}
                             </h3>
                             
@@ -512,28 +529,28 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
                                         )}
                                       </div>
                                       
-                                      {command.description && (
+                                      {localizedDescription(command) && (
                                         <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                                          {command.description}
+                                          {localizedDescription(command)}
                                         </p>
                                       )}
                                       
                                       <div className="flex items-center gap-3 mt-1">
                                         {command.allowed_tools.length > 0 && (
                                           <span className="text-xs text-muted-foreground">
-                                            {command.allowed_tools.length} tool{command.allowed_tools.length === 1 ? '' : 's'}
+                                            {t("slashCommandPicker.labels.toolCount", { count: command.allowed_tools.length })}
                                           </span>
                                         )}
-                                        
+
                                         {command.has_bash_commands && (
                                           <span className="text-xs text-blue-600 dark:text-blue-400">
-                                            Bash
+                                            {t("slashCommandPicker.labels.bash")}
                                           </span>
                                         )}
-                                        
+
                                         {command.has_file_references && (
                                           <span className="text-xs text-green-600 dark:text-green-400">
-                                            Files
+                                            {t("slashCommandPicker.labels.files")}
                                           </span>
                                         )}
                                       </div>
@@ -557,7 +574,7 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
       {/* Footer */}
       <div className="border-t border-border p-2">
         <p className="text-xs text-muted-foreground text-center">
-          ↑↓ Navigate • Enter Select • Esc Close
+          {t("slashCommandPicker.footerHint")}
         </p>
       </div>
     </motion.div>
