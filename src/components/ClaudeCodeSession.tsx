@@ -20,6 +20,7 @@ import {
   createCompositionHandlers,
   type IMECompositionRefs,
 } from "@/utils/ime";
+import { useTranslation } from "react-i18next";
 
 import { listen } from "@tauri-apps/api/event";
 type UnlistenFn = () => void;
@@ -82,6 +83,7 @@ export const ClaudeCodeSession: React.FC<ClaudeCodeSessionProps> = ({
   onStreamingChange,
   onProjectPathChange,
 }) => {
+  const { t } = useTranslation();
   const [projectPath] = useState(initialProjectPath || session?.project_path || "");
   const [messages, setMessages] = useState<ClaudeStreamMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -1506,7 +1508,7 @@ export const ClaudeCodeSession: React.FC<ClaudeCodeSessionProps> = ({
               extraMenuItems={
                 <>
                   {effectiveSession && (
-                    <TooltipSimple content="Session Timeline" side="top">
+                    <TooltipSimple content={t("promptInput.tooltips.sessionTimeline")} side="top">
                       <motion.div
                         whileTap={{ scale: 0.97 }}
                         transition={{ duration: 0.15 }}
@@ -1525,7 +1527,7 @@ export const ClaudeCodeSession: React.FC<ClaudeCodeSessionProps> = ({
                   {messages.length > 0 && (
                     <Popover
                       trigger={
-                        <TooltipSimple content="Copy conversation" side="top">
+                        <TooltipSimple content={t("promptInput.tooltips.copyConversation")} side="top">
                           <motion.div
                             whileTap={{ scale: 0.97 }}
                             transition={{ duration: 0.15 }}
@@ -1548,7 +1550,7 @@ export const ClaudeCodeSession: React.FC<ClaudeCodeSessionProps> = ({
                             onClick={handleCopyAsMarkdown}
                             className="w-full justify-start text-xs"
                           >
-                            Copy as Markdown
+                            {t("promptInput.copyOptions.markdown")}
                           </Button>
                           <Button
                             variant="ghost"
@@ -1556,7 +1558,7 @@ export const ClaudeCodeSession: React.FC<ClaudeCodeSessionProps> = ({
                             onClick={handleCopyAsJsonl}
                             className="w-full justify-start text-xs"
                           >
-                            Copy as JSONL
+                            {t("promptInput.copyOptions.jsonl")}
                           </Button>
                         </div>
                       }
@@ -1566,7 +1568,7 @@ export const ClaudeCodeSession: React.FC<ClaudeCodeSessionProps> = ({
                       align="end"
                     />
                   )}
-                  <TooltipSimple content="Checkpoint Settings" side="top">
+                  <TooltipSimple content={t("promptInput.tooltips.checkpointSettings")} side="top">
                     <motion.div
                       whileTap={{ scale: 0.97 }}
                       transition={{ duration: 0.15 }}
@@ -1712,7 +1714,7 @@ export const ClaudeCodeSession: React.FC<ClaudeCodeSessionProps> = ({
       {/* Settings Dialog */}
       {showSettings && effectiveSession && (
         <Dialog open={showSettings} onOpenChange={setShowSettings}>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
             <CheckpointSettings
               sessionId={effectiveSession.id}
               projectId={effectiveSession.project_id}

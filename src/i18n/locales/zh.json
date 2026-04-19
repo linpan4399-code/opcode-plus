@@ -635,7 +635,21 @@
     }
   },
   "timeline": {
-    "title": "会话时间线"
+    "title": "时间线",
+    "checkpoints": "个检查点",
+    "checkpoint": "检查点",
+    "loading": "加载时间线中...",
+    "noCheckpoints": "暂无检查点",
+    "experimental": {
+      "title": "实验性功能",
+      "warning": "检查点功能可能影响目录结构或导致数据丢失，请谨慎使用。"
+    },
+    "createDialog": {
+      "title": "创建检查点",
+      "description": "保存会话的当前状态，可添加可选描述。",
+      "descriptionLabel": "描述（可选）",
+      "placeholder": "例如：重大重构前"
+    }
   },
   "checkpointSettings": {
     "title": "检查点设置",

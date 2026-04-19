@@ -23,6 +23,7 @@ import { api, type Checkpoint, type TimelineNode, type SessionTimeline, type Che
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { useTrackEvent } from "@/hooks";
+import { useTranslation } from "react-i18next";
 import {
   isImeComposingKeydown,
   createCompositionHandlers,
@@ -62,6 +63,7 @@ export const TimelineNavigator: React.FC<TimelineNavigatorProps> = ({
   onCheckpointCreated,
   className
 }) => {
+  const { t } = useTranslation();
   const [timeline, setTimeline] = useState<SessionTimeline | null>(null);
   const [selectedCheckpoint, setSelectedCheckpoint] = useState<Checkpoint | null>(null);
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
@@ -430,26 +432,26 @@ export const TimelineNavigator: React.FC<TimelineNavigatorProps> = ({
         <div className="flex items-start gap-2">
           <AlertCircle className="h-4 w-4 text-yellow-600 mt-0.5" />
           <div className="text-xs">
-            <p className="font-medium text-yellow-600">Experimental Feature</p>
+            <p className="font-medium text-yellow-600">{t("timeline.experimental.title")}</p>
             <p className="text-yellow-600/80">
-              Checkpointing may affect directory structure or cause data loss. Use with caution.
+              {t("timeline.experimental.warning")}
             </p>
           </div>
         </div>
       </div>
-      
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <GitBranch className="h-5 w-5 text-muted-foreground" />
-          <h3 className="text-sm font-medium">Timeline</h3>
+          <h3 className="text-sm font-medium">{t("timeline.title")}</h3>
           {timeline && (
             <Badge variant="outline" className="text-xs">
-              {timeline.totalCheckpoints} checkpoints
+              {timeline.totalCheckpoints} {t("timeline.checkpoints")}
             </Badge>
           )}
         </div>
-        
+
         <Button
           size="sm"
           variant="default"
@@ -457,7 +459,7 @@ export const TimelineNavigator: React.FC<TimelineNavigatorProps> = ({
           disabled={isLoading}
         >
           <Save className="h-3 w-3 mr-1" />
-          Checkpoint
+          {t("timeline.checkpoint")}
         </Button>
       </div>
       
@@ -476,26 +478,26 @@ export const TimelineNavigator: React.FC<TimelineNavigatorProps> = ({
         </div>
       ) : (
         <div className="text-center py-8 text-sm text-muted-foreground">
-          {isLoading ? "Loading timeline..." : "No checkpoints yet"}
+          {isLoading ? t("timeline.loading") : t("timeline.noCheckpoints")}
         </div>
       )}
-      
+
       {/* Create checkpoint dialog */}
       <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create Checkpoint</DialogTitle>
+            <DialogTitle>{t("timeline.createDialog.title")}</DialogTitle>
             <DialogDescription>
-              Save the current state of your session with an optional description.
+              {t("timeline.createDialog.description")}
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="description">Description (optional)</Label>
+              <Label htmlFor="description">{t("timeline.createDialog.descriptionLabel")}</Label>
               <Input
                 id="description"
-                placeholder="e.g., Before major refactoring"
+                placeholder={t("timeline.createDialog.placeholder")}
                 value={checkpointDescription}
                 onChange={(e) => setCheckpointDescription(e.target.value)}
                 onKeyDown={(e) => {
