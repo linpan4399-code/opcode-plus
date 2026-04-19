@@ -1,12 +1,29 @@
 <!--
-  opcode-plus — 社区增强版 fork of getAsterisk/opcode
+  opcode-plus — Community-enhanced fork of getAsterisk/opcode
   Attribution / legal notes: see ATTRIBUTION.md
   Merged PRs list: see CHANGELOG.md
 -->
 
-> **📢 你正在查看 [opcode-plus](https://github.com/linpan4399-code/opcode-plus)** — 基于 [getAsterisk/opcode](https://github.com/getAsterisk/opcode) 的社区增强 fork,合并了多个长期未处理的高质量 PR。本项目**不附属于**原作者或 Anthropic。完整溯源见 [`ATTRIBUTION.md`](./ATTRIBUTION.md),合并 PR 清单见 [`CHANGELOG.md`](./CHANGELOG.md)。许可证与上游一致: AGPL-3.0。
->
-> 下方为上游原始 README,未经修改。
+<div align="center">
+
+# opcodePlus
+
+**Community-Enhanced Fork of [getAsterisk/opcode](https://github.com/getAsterisk/opcode)**
+
+[English](./README.md) | [简体中文](./README.zh-CN.md)
+
+[![Download Latest](https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge)](https://github.com/linpan4399-code/opcode-plus/releases/latest)
+[![License](https://img.shields.io/badge/License-AGPL--3.0-green?style=for-the-badge)](./LICENSE)
+
+</div>
+
+---
+
+> [!IMPORTANT]
+> **You are viewing [opcode-plus](https://github.com/linpan4399-code/opcode-plus)** — a community-enhanced fork of [getAsterisk/opcode](https://github.com/getAsterisk/opcode) that merges multiple high-quality PRs that have been pending upstream. This project is **not affiliated with** the original author or Anthropic. See [`ATTRIBUTION.md`](./ATTRIBUTION.md) for full attribution and [`CHANGELOG.md`](./CHANGELOG.md) for merged PR list. License: AGPL-3.0 (same as upstream).
+
+> [!NOTE]
+> This project is not affiliated with, endorsed by, or sponsored by Anthropic. Claude is a trademark of Anthropic, PBC. This is an independent developer project using Claude.
 
 ---
 
@@ -26,56 +43,43 @@
     <a href="#features"><img src="https://img.shields.io/badge/Features-✨-blue?style=for-the-badge" alt="Features"></a>
     <a href="#installation"><img src="https://img.shields.io/badge/Install-🚀-green?style=for-the-badge" alt="Installation"></a>
     <a href="#usage"><img src="https://img.shields.io/badge/Usage-📖-purple?style=for-the-badge" alt="Usage"></a>
-    <a href="#development"><img src="https://img.shields.io/badge/Develop-🛠️-orange?style=for-the-badge" alt="Development"></a>
     <a href="https://discord.com/invite/KYwhHVzUsY"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
   </p>
 </div>
 
 ![457013521-6133a738-d0cb-4d3e-8746-c6768c82672c](https://github.com/user-attachments/assets/a028de9e-d881-44d8-bae5-7326ab3558b9)
 
-
-
 https://github.com/user-attachments/assets/6bceea0f-60b6-4c3e-a745-b891de00b8d0
 
+## 🌟 What's New in opcodePlus
 
+opcodePlus enhances the original opcode with community-contributed improvements:
 
-> [!TIP]
-> **⭐ Star the repo and follow [@getAsterisk](https://x.com/getAsterisk) on X for early access to `asteria-swe-v0`**.
+### ✨ Plus Features
 
-> [!NOTE]
-> This project is not affiliated with, endorsed by, or sponsored by Anthropic. Claude is a trademark of Anthropic, PBC. This is an independent developer project using Claude.
+- **🌍 Internationalization (i18n)**: Full bilingual support (English/Chinese) for UI and slash commands
+- **📝 Markdown Rendering**: Rich markdown support in slash command descriptions with syntax highlighting
+- **🎨 Enhanced UI**: Improved slash command picker with better visual hierarchy
+- **🔧 Bug Fixes**: Multiple stability improvements and bug fixes from community PRs
+- **🚀 CI/CD Improvements**: Automated multi-platform builds (Linux, macOS, Windows)
+- **📦 Better Packaging**: Optimized installers for all platforms
 
-## 🌟 Overview
+### 🔄 Merged Community PRs
 
-**opcode** is a powerful desktop application that transforms how you interact with Claude Code. Built with Tauri 2, it provides a beautiful GUI for managing your Claude Code sessions, creating custom agents, tracking usage, and much more.
+See [`CHANGELOG.md`](./CHANGELOG.md) for the complete list of merged pull requests and improvements.
 
-Think of opcode as your command center for Claude Code - bridging the gap between the command-line tool and a visual experience that makes AI-assisted development more intuitive and productive.
+---
 
 ## 📋 Table of Contents
 
-- [🌟 Overview](#-overview)
+- [🌟 What's New in opcodePlus](#-whats-new-in-opcodeplus)
 - [✨ Features](#-features)
-  - [🗂️ Project & Session Management](#️-project--session-management)
-  - [🤖 CC Agents](#-cc-agents)
-  
-  - [📊 Usage Analytics Dashboard](#-usage-analytics-dashboard)
-  - [🔌 MCP Server Management](#-mcp-server-management)
-  - [⏰ Timeline & Checkpoints](#-timeline--checkpoints)
-  - [📝 CLAUDE.md Management](#-claudemd-management)
 - [📖 Usage](#-usage)
-  - [Getting Started](#getting-started)
-  - [Managing Projects](#managing-projects)
-  - [Creating Agents](#creating-agents)
-  - [Tracking Usage](#tracking-usage)
-  - [Working with MCP Servers](#working-with-mcp-servers)
 - [🚀 Installation](#-installation)
 - [🔨 Build from Source](#-build-from-source)
 - [🛠️ Development](#️-development)
-- [🔒 Security](#-security)
-- [📦 Release Information](#-release-information)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
-- [🙏 Acknowledgments](#-acknowledgments)
 
 ## ✨ Features
 
@@ -90,8 +94,6 @@ Think of opcode as your command center for Claude Code - bridging the gap betwee
 - **Agent Library**: Build a collection of purpose-built agents for different tasks
 - **Background Execution**: Run agents in separate processes for non-blocking operations
 - **Execution History**: Track all agent runs with detailed logs and performance metrics
-
-
 
 ### 📊 **Usage Analytics Dashboard**
 - **Cost Tracking**: Monitor your Claude API usage and costs in real-time
@@ -122,9 +124,9 @@ Think of opcode as your command center for Claude Code - bridging the gap betwee
 
 ### Getting Started
 
-1. **Launch opcode**: Open the application after installation
+1. **Launch opcodePlus**: Open the application after installation
 2. **Welcome Screen**: Choose between CC Agents or Projects
-3. **First Time Setup**: opcode will automatically detect your `~/.claude` directory
+3. **First Time Setup**: opcodePlus will automatically detect your `~/.claude` directory
 
 ### Managing Projects
 
@@ -171,31 +173,34 @@ Menu → MCP Manager → Add Server → Configure
 
 ### Pre-built Releases (Recommended)
 
-Download the latest release for your platform from the [Releases page](https://github.com/getAsterisk/claudia/releases):
+Download the latest release for your platform:
 
-#### Linux
-- **`.deb` package** (Ubuntu/Debian): `sudo dpkg -i Claudia_*.deb`
-- **`.AppImage`** (Universal): Make executable and run directly
+#### 🐧 Linux
+- [**Download .deb package**](https://github.com/linpan4399-code/opcode-plus/releases/latest) (Ubuntu/Debian)
   ```bash
-  chmod +x Claudia_*.AppImage
-  ./Claudia_*.AppImage
+  sudo dpkg -i opcodePlus_*_amd64.deb
+  ```
+- [**Download .AppImage**](https://github.com/linpan4399-code/opcode-plus/releases/latest) (Universal)
+  ```bash
+  chmod +x opcodePlus_*_amd64.AppImage
+  ./opcodePlus_*_amd64.AppImage
   ```
 
-#### macOS
-- **`.dmg` installer** (Apple Silicon): Download and drag to Applications folder
-- **Intel Macs** (macOS Universal): Planned when Intel binaries are available
+#### 🍎 macOS
+- [**Download .dmg installer**](https://github.com/linpan4399-code/opcode-plus/releases/latest) (Universal: Apple Silicon + Intel)
+  - Download and drag to Applications folder
+  - Right-click and select "Open" on first launch (unsigned app)
 
-#### Windows
-- **Coming Soon**: Windows installers will be available once [issue #83](https://github.com/getAsterisk/claudia/issues/83) is resolved
+#### 🪟 Windows
+- [**Download .exe installer**](https://github.com/linpan4399-code/opcode-plus/releases/latest)
+  - Run the installer and follow the setup wizard
+  - Windows may show a SmartScreen warning (click "More info" → "Run anyway")
 
 ## 🔨 Build from Source
 
 ### Prerequisites
 
-Before building opcode from source, ensure you have the following installed:
-
 #### System Requirements
-
 - **Operating System**: Windows 10/11, macOS 11+, or Linux (Ubuntu 20.04+)
 - **RAM**: Minimum 4GB (8GB recommended)
 - **Storage**: At least 1GB free space
@@ -204,33 +209,26 @@ Before building opcode from source, ensure you have the following installed:
 
 1. **Rust** (1.70.0 or later)
    ```bash
-   # Install via rustup
    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
    ```
 
-2. **Bun** (latest version)
+2. **Node.js** (18+ or Bun)
    ```bash
-   # Install bun
+   # Using npm
+   npm install
+   # Or using bun
    curl -fsSL https://bun.sh/install | bash
+   bun install
    ```
 
-3. **Git**
-   ```bash
-   # Usually pre-installed, but if not:
-   # Ubuntu/Debian: sudo apt install git
-   # macOS: brew install git
-   # Windows: Download from https://git-scm.com
-   ```
-
-4. **Claude Code CLI**
-   - Download and install from [Claude's official site](https://claude.ai/code)
+3. **Claude Code CLI**
+   - Download from [Claude's official site](https://claude.ai/code)
    - Ensure `claude` is available in your PATH
 
 #### Platform-Specific Dependencies
 
 **Linux (Ubuntu/Debian)**
 ```bash
-# Install system dependencies
 sudo apt update
 sudo apt install -y \
   libwebkit2gtk-4.1-dev \
@@ -239,229 +237,100 @@ sudo apt install -y \
   librsvg2-dev \
   patchelf \
   build-essential \
-  curl \
-  wget \
-  file \
   libssl-dev \
-  libxdo-dev \
-  libsoup-3.0-dev \
-  libjavascriptcoregtk-4.1-dev
+  libxdo-dev
 ```
 
 **macOS**
 ```bash
-# Install Xcode Command Line Tools
 xcode-select --install
-
-# Install additional dependencies via Homebrew (optional)
-brew install pkg-config
 ```
 
 **Windows**
 - Install [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
-- Install [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) (usually pre-installed on Windows 11)
+- Install [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/)
 
 ### Build Steps
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/getAsterisk/opcode.git
-   cd opcode
+   git clone https://github.com/linpan4399-code/opcode-plus.git
+   cd opcode-plus
    ```
 
-2. **Install Frontend Dependencies**
+2. **Install Dependencies**
    ```bash
+   npm install
+   # or
    bun install
    ```
 
 3. **Build the Application**
-   
-   **For Development (with hot reload)**
    ```bash
-   bun run tauri dev
-   ```
-   
-   **For Production Build**
-   ```bash
-   # Build the application
+   npm run tauri build
+   # or
    bun run tauri build
-   
-   # The built executable will be in:
-   # - Linux: src-tauri/target/release/
-   # - macOS: src-tauri/target/release/
-   # - Windows: src-tauri/target/release/
    ```
 
-4. **Platform-Specific Build Options**
-   
-   **Debug Build (faster compilation, larger binary)**
-   ```bash
-   bun run tauri build --debug
-   ```
-   
-   **Universal Binary for macOS (Intel + Apple Silicon)**
-   ```bash
-   bun run tauri build --target universal-apple-darwin
-   ```
-
-### Troubleshooting
-
-#### Common Issues
-
-1. **"cargo not found" error**
-   - Ensure Rust is installed and `~/.cargo/bin` is in your PATH
-   - Run `source ~/.cargo/env` or restart your terminal
-
-2. **Linux: "webkit2gtk not found" error**
-   - Install the webkit2gtk development packages listed above
-   - On newer Ubuntu versions, you might need `libwebkit2gtk-4.0-dev`
-
-3. **Windows: "MSVC not found" error**
-   - Install Visual Studio Build Tools with C++ support
-   - Restart your terminal after installation
-
-4. **"claude command not found" error**
-   - Ensure Claude Code CLI is installed and in your PATH
-   - Test with `claude --version`
-
-5. **Build fails with "out of memory"**
-   - Try building with fewer parallel jobs: `cargo build -j 2`
-   - Close other applications to free up RAM
-
-#### Verify Your Build
-
-After building, you can verify the application works:
-
-```bash
-# Run the built executable directly
-# Linux/macOS
-./src-tauri/target/release/opcode
-
-# Windows
-./src-tauri/target/release/opcode.exe
-```
-
-### Build Artifacts
-
-The build process creates several artifacts:
-
-- **Executable**: The main opcode application
-- **Installers** (when using `tauri build`):
-  - `.deb` package (Linux)
-  - `.AppImage` (Linux)
-  - `.dmg` installer (macOS)
-  - `.msi` installer (Windows)
-  - `.exe` installer (Windows)
-
-All artifacts are located in `src-tauri/target/release/`.
+4. **Find Your Build**
+   - **Linux**: `src-tauri/target/release/bundle/deb/` and `src-tauri/target/release/bundle/appimage/`
+   - **macOS**: `src-tauri/target/release/bundle/dmg/`
+   - **Windows**: `src-tauri/target/release/bundle/nsis/`
 
 ## 🛠️ Development
 
-### Tech Stack
+### Run in Development Mode
 
-- **Frontend**: React 18 + TypeScript + Vite 6
-- **Backend**: Rust with Tauri 2
-- **UI Framework**: Tailwind CSS v4 + shadcn/ui
-- **Database**: SQLite (via rusqlite)
-- **Package Manager**: Bun
+```bash
+npm run tauri dev
+# or
+bun run tauri dev
+```
 
 ### Project Structure
 
 ```
-opcode/
-├── src/                   # React frontend
-│   ├── components/        # UI components
-│   ├── lib/               # API client & utilities
-│   └── assets/            # Static assets
+opcode-plus/
+├── src/                    # React frontend
+│   ├── components/         # UI components
+│   ├── lib/               # Utilities and API
+│   └── i18n/              # Internationalization
 ├── src-tauri/             # Rust backend
-│   ├── src/
-│   │   ├── commands/      # Tauri command handlers
-│   │   ├── checkpoint/    # Timeline management
-│   │   └── process/       # Process management
-│   └── tests/             # Rust test suite
-└── public/                # Public assets
+│   ├── src/               # Rust source code
+│   └── icons/             # App icons
+└── .github/workflows/     # CI/CD pipelines
 ```
-
-### Development Commands
-
-```bash
-# Start development server
-bun run tauri dev
-
-# Run frontend only
-bun run dev
-
-# Type checking
-bunx tsc --noEmit
-
-# Run Rust tests
-cd src-tauri && cargo test
-
-# Format code
-cd src-tauri && cargo fmt
-```
-
-## 🔒 Security
-
-opcode prioritizes your privacy and security:
-
-1. **Process Isolation**: Agents run in separate processes
-2. **Permission Control**: Configure file and network access per agent
-3. **Local Storage**: All data stays on your machine
-4. **No Telemetry**: No data collection or tracking
-5. **Open Source**: Full transparency through open source code
-
-## 📦 Release Information
-
-Claudia uses automated builds to ensure consistent, reliable releases:
-
-- **Automated Builds**: Every commit to main triggers multi-platform builds
-- **Quality Assurance**: All releases pass comprehensive testing on Linux and macOS
-- **Semantic Versioning**: Releases follow the format `v{version}-build{number}`
-- **Platform Support**: 
-  - ✅ Linux (Ubuntu) - Fully supported
-  - ✅ macOS (Apple Silicon) - Native builds
-  - ⏳ Windows - Coming soon (see [#83](https://github.com/getAsterisk/claudia/issues/83))
-  - ⏳ macOS (Universal) - Planned when Intel binaries are available
-
-**Release Schedule**: New releases are automatically created when changes are merged to the main branch.
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+Contributions are welcome! This fork exists to merge community improvements faster than upstream.
 
-### Areas for Contribution
-
-- 🐛 Bug fixes and improvements
-- ✨ New features and enhancements
-- 📚 Documentation improvements
-- 🎨 UI/UX enhancements
-- 🧪 Test coverage
-- 🌐 Internationalization
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📄 License
 
-This project is licensed under the AGPL License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **AGPL-3.0 License** - see the [LICENSE](LICENSE) file for details.
+
+Same license as the upstream [getAsterisk/opcode](https://github.com/getAsterisk/opcode) project.
 
 ## 🙏 Acknowledgments
 
-- Built with [Tauri](https://tauri.app/) - The secure framework for building desktop apps
-- [Claude](https://claude.ai) by Anthropic
+- Original project: [getAsterisk/opcode](https://github.com/getAsterisk/opcode)
+- All community contributors whose PRs are merged in this fork
+- Anthropic for Claude Code
+- The Tauri team for the amazing framework
 
 ---
 
 <div align="center">
+  <p>Made with ❤️ by the community</p>
   <p>
-    <strong>Made with ❤️ by the <a href="https://asterisk.so/">Asterisk</a></strong>
-  </p>
-  <p>
-    <a href="https://github.com/getAsterisk/opcode/issues">Report Bug</a>
+    <a href="https://github.com/linpan4399-code/opcode-plus/issues">Report Bug</a>
     ·
-    <a href="https://github.com/getAsterisk/opcode/issues">Request Feature</a>
+    <a href="https://github.com/linpan4399-code/opcode-plus/issues">Request Feature</a>
   </p>
 </div>
-
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=getAsterisk/opcode&type=Date)](https://www.star-history.com/#getAsterisk/opcode&Date)
