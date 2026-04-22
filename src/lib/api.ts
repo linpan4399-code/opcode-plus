@@ -1064,8 +1064,8 @@ export const api = {
   /**
    * Executes a new interactive Claude Code session with streaming output
    */
-  async executeClaudeCode(projectPath: string, prompt: string, model: string): Promise<void> {
-    return apiCall("execute_claude_code", { projectPath, prompt, model });
+  async executeClaudeCode(projectPath: string, prompt: string, model: string, effort?: string): Promise<void> {
+    return apiCall("execute_claude_code", { projectPath, prompt, model, effort });
   },
 
   /**
@@ -1078,8 +1078,8 @@ export const api = {
   /**
    * Resumes an existing Claude Code session by ID with streaming output
    */
-  async resumeClaudeCode(projectPath: string, sessionId: string, prompt: string, model: string): Promise<void> {
-    return apiCall("resume_claude_code", { projectPath, sessionId, prompt, model });
+  async resumeClaudeCode(projectPath: string, sessionId: string, prompt: string, model: string, effort?: string): Promise<void> {
+    return apiCall("resume_claude_code", { projectPath, sessionId, prompt, model, effort });
   },
 
   /**

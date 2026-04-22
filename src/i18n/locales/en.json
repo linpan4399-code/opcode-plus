@@ -13,7 +13,9 @@
     "about": "About",
     "close": "Close",
     "minimize": "Minimize",
-    "maximize": "Maximize"
+    "maximize": "Maximize",
+    "sessionInfo": "Session Info",
+    "sessionInfoDesc": "Show system initialization info in conversations"
   },
   "topbar": {
     "checking": "Checking...",
@@ -122,6 +124,7 @@
       "dark": "Dark",
       "gray": "Gray",
       "light": "Light",
+      "nativecc": "Native CC",
       "custom": "Custom",
       "customTheme": "Custom Theme Colors",
       "background": "Background",
@@ -584,13 +587,21 @@
   },
   "promptInput": {
     "models": {
-      "sonnet": {
-        "name": "Claude 4 Sonnet",
-        "description": "Faster, efficient for most tasks"
+      "default": {
+        "name": "Default (recommended)",
+        "description": "Currently Sonnet 4.6"
+      },
+      "sonnet[1m]": {
+        "name": "Sonnet (1M context)",
+        "description": "Sonnet 4.6 for long sessions"
       },
       "opus": {
-        "name": "Claude 4 Opus",
-        "description": "More capable, better for complex tasks"
+        "name": "Opus 4.7 (1M context)",
+        "description": "Most capable for complex work"
+      },
+      "haiku": {
+        "name": "Haiku",
+        "description": "Fastest and cheapest"
       }
     },
     "thinkingModes": {
@@ -626,6 +637,13 @@
     },
     "placeholder": "Message Claude (@ for files, / for commands)...",
     "placeholderExpanded": "Type your message..."
+  },
+  "stats": {
+    "cost": "Cost: ${{amount}} USD",
+    "duration": "Duration: {{seconds}}s",
+    "turns": "Turns: {{count}}",
+    "totalTokens": "Total tokens: {{total}} ({{input}} in, {{output}} out)",
+    "tokens": "Tokens: {{input}} in, {{output}} out"
   },
   "slashCommandPicker": {
     "title": "Slash Commands",

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
-import { Settings, Minus, Square, X, Bot, BarChart3, FileText, Network, Info, MoreVertical } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Settings, Minus, Square, X, Bot, BarChart3, FileText, Network, Info, MoreVertical, MonitorCog } from 'lucide-react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { TooltipProvider, TooltipSimple } from '@/components/ui/tooltip-modern';
 
@@ -25,18 +25,33 @@ export const CustomTitlebar: React.FC<CustomTitlebarProps> = ({
   const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSessionInfoPopoverOpen, setIsSessionInfoPopoverOpen] = useState(false);
+  const [showSessionInfo, setShowSessionInfo] = useState(() => {
+    return localStorage.getItem('show_session_info') !== 'false';
+  });
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const sessionInfoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
       }
+      if (sessionInfoRef.current && !sessionInfoRef.current.contains(event.target as Node)) {
+        setIsSessionInfoPopoverOpen(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const toggleSessionInfo = () => {
+    const newValue = !showSessionInfo;
+    setShowSessionInfo(newValue);
+    localStorage.setItem('show_session_info', String(newValue));
+    window.dispatchEvent(new CustomEvent('session-info-toggle', { detail: newValue }));
+  };
 
   const handleMinimize = async () => {
     try {
@@ -148,6 +163,45 @@ export const CustomTitlebar: React.FC<CustomTitlebarProps> = ({
               </motion.button>
             </TooltipSimple>
           )}
+
+          {/* Session Info Toggle */}
+          <div className="relative" ref={sessionInfoRef}>
+            <TooltipSimple content={t('nav.sessionInfo')} side="bottom">
+              <motion.button
+                onClick={() => setIsSessionInfoPopoverOpen(!isSessionInfoPopoverOpen)}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.15 }}
+                className="p-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors tauri-no-drag"
+              >
+                <MonitorCog size={16} />
+              </motion.button>
+            </TooltipSimple>
+
+            <AnimatePresence>
+              {isSessionInfoPopoverOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 4 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute right-0 mt-2 w-56 bg-popover border border-border rounded-lg shadow-lg z-[250] p-3"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-sm">{t('nav.sessionInfo')}</span>
+                    <button
+                      onClick={toggleSessionInfo}
+                      className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${showSessionInfo ? 'bg-primary' : 'bg-muted'}`}
+                    >
+                      <span
+                        className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-background shadow ring-0 transition duration-200 ease-in-out ${showSessionInfo ? 'translate-x-4' : 'translate-x-0'}`}
+                      />
+                    </button>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1.5">{t('nav.sessionInfoDesc')}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
           
           {onUsageClick && (
             <TooltipSimple content={t('nav.usageDashboard')} side="bottom">

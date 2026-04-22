@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { 
+import { useTranslation } from "react-i18next";
+import {
   CheckCircle2, 
   Circle, 
   Clock,
@@ -1804,6 +1805,7 @@ export const SystemInitializedWidget: React.FC<{
   cwd?: string;
   tools?: string[];
 }> = ({ sessionId, model, cwd, tools = [] }) => {
+  const { t } = useTranslation();
   const [mcpExpanded, setMcpExpanded] = useState(false);
   
   // Separate regular tools from MCP tools
@@ -1880,14 +1882,14 @@ export const SystemInitializedWidget: React.FC<{
         <div className="flex items-start gap-3">
           <Settings className="h-5 w-5 text-blue-500 mt-0.5" />
           <div className="flex-1 space-y-4">
-            <h4 className="font-semibold text-sm">System Initialized</h4>
+            <h4 className="font-semibold text-sm">{t('systemInitialized.title')}</h4>
             
             {/* Session Info */}
             <div className="space-y-2">
               {sessionId && (
                 <div className="flex items-center gap-2 text-xs">
                   <Fingerprint className="h-3.5 w-3.5 text-muted-foreground" />
-                  <span className="text-muted-foreground">Session ID:</span>
+                  <span className="text-muted-foreground">{t('systemInitialized.sessionId')}:</span>
                   <code className="font-mono text-xs bg-muted px-1.5 py-0.5 rounded">
                     {sessionId}
                   </code>
@@ -1897,7 +1899,7 @@ export const SystemInitializedWidget: React.FC<{
               {model && (
                 <div className="flex items-center gap-2 text-xs">
                   <Cpu className="h-3.5 w-3.5 text-muted-foreground" />
-                  <span className="text-muted-foreground">Model:</span>
+                  <span className="text-muted-foreground">{t('systemInitialized.model')}:</span>
                   <code className="font-mono text-xs bg-muted px-1.5 py-0.5 rounded">
                     {model}
                   </code>
@@ -1907,7 +1909,7 @@ export const SystemInitializedWidget: React.FC<{
               {cwd && (
                 <div className="flex items-center gap-2 text-xs">
                   <FolderOpen className="h-3.5 w-3.5 text-muted-foreground" />
-                  <span className="text-muted-foreground">Working Directory:</span>
+                  <span className="text-muted-foreground">{t('systemInitialized.workingDirectory')}:</span>
                   <code className="font-mono text-xs bg-muted px-1.5 py-0.5 rounded break-all">
                     {cwd}
                   </code>
@@ -1921,7 +1923,7 @@ export const SystemInitializedWidget: React.FC<{
                 <div className="flex items-center gap-2">
                   <Wrench className="h-3.5 w-3.5 text-muted-foreground" />
                   <span className="text-xs font-medium text-muted-foreground">
-                    Available Tools ({regularTools.length})
+                    {t('systemInitialized.availableTools')} ({regularTools.length})
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -1950,7 +1952,7 @@ export const SystemInitializedWidget: React.FC<{
                   className="flex items-center gap-2 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Package className="h-3.5 w-3.5" />
-                  <span>MCP Services ({mcpTools.length})</span>
+                  <span>{t('systemInitialized.mcpServices')} ({mcpTools.length})</span>
                   <ChevronDown className={cn(
                     "h-3 w-3 transition-transform",
                     mcpExpanded && "rotate-180"
@@ -1990,7 +1992,7 @@ export const SystemInitializedWidget: React.FC<{
             {/* Show message if no tools */}
             {tools.length === 0 && (
               <div className="text-xs text-muted-foreground italic">
-                No tools available
+                {t('systemInitialized.noTools')}
               </div>
             )}
           </div>
@@ -2275,7 +2277,7 @@ export const ThinkingWidget: React.FC<{
   thinking: string;
   signature?: string;
 }> = ({ thinking }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const trimmedThinking = (thinking || '').trim();
   const hasContent = trimmedThinking.length > 0;

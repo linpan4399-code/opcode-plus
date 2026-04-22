@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>opcodePlus CLI 调用流程图</title>
+<style>
+  body { display: flex; justify-content: center; padding: 20px; background: #1a1a2e; }
+  #mermaid-container { background: #fff; border-radius: 12px; padding: 30px; max-width: 900px; }
+  h2 { text-align: center; color: #333; margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<div id="mermaid-container">
+  <h2>opcodePlus 调用 Claude Code CLI 流程图</h2>
+  <pre class="mermaid">
+flowchart TD
+    A["👤 用户输入提示词\n选择模型和思考程度"] --> B["浮动输入框\nhandleSend()"]
+    B -->|"提示词, 模型, 思考程度"| C["会话管理组件\nhandleSendPrompt()"]
+    C --> D{"是否存在\n已有会话?"}
+    D -->|"新会话"| E["调用 executeClaudeCode\n传入项目路径、提示词、模型、思考程度"]
+    D -->|"恢复会话"| F["调用 resumeClaudeCode\n传入项目路径、会话ID、提示词、模型、思考程度"]
+    E --> G["通过 Tauri IPC\n调用 Rust 后端"]
+    F --> G
+    G --> H["Rust 后端\n接收调用请求"]
+    H --> I["查找 Claude CLI\n可执行文件路径"]
+    I --> J["构建命令行参数\n提示词、模型、思考程度\n输出格式、详细模式等"]
+    J --> K["创建系统命令"]
+    K --> L["配置运行环境"]
+    L --> M["加载登录 Shell 环境变量\n首次加载后缓存"]
+    M --> N["注入环境变量\n路径、API密钥、代理地址\nNode、Homebrew 等"]
+    N --> O["启动子进程"]
+    O --> P["Claude CLI 子进程运行中"]
+    P --> Q["标准输出监听线程"]
+    P --> R["错误输出监听线程"]
+    P --> S["进程完成监听线程"]
+    Q -->|"解析流式JSON"| T["发送输出事件到前端"]
+    R -->|"错误信息"| U["发送错误事件到前端"]
+    S -->|"进程退出"| V["发送完成事件到前端"]
+    T --> W["前端事件监听器\n接收并处理"]
+    U --> W
+    V --> W
+    W --> X["消息渲染组件\n显示回复和思考过程"]
+    X --> Y["👤 用户看到回复"]
+  </pre>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad: true, theme: 'default'});</script>
+</body>
+</html>

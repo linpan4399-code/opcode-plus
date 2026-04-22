@@ -13,7 +13,9 @@
     "about": "关于",
     "close": "关闭",
     "minimize": "最小化",
-    "maximize": "最大化"
+    "maximize": "最大化",
+    "sessionInfo": "会话信息",
+    "sessionInfoDesc": "在对话中显示系统初始化信息"
   },
   "topbar": {
     "checking": "检查中...",
@@ -122,6 +124,7 @@
       "dark": "深色",
       "gray": "灰色",
       "light": "浅色",
+      "nativecc": "原生 CC",
       "custom": "自定义",
       "customTheme": "自定义主题颜色",
       "background": "背景色",
@@ -584,13 +587,21 @@
   },
   "promptInput": {
     "models": {
-      "sonnet": {
-        "name": "Claude 4 Sonnet",
-        "description": "更快速，适合大多数任务"
+      "default": {
+        "name": "默认（推荐）",
+        "description": "当前为 Sonnet 4.6"
+      },
+      "sonnet[1m]": {
+        "name": "Sonnet（1M 上下文）",
+        "description": "Sonnet 4.6 长会话版"
       },
       "opus": {
-        "name": "Claude 4 Opus",
-        "description": "更强大，适合复杂任务"
+        "name": "Opus 4.7（1M 上下文）",
+        "description": "最强大，适合复杂任务"
+      },
+      "haiku": {
+        "name": "Haiku",
+        "description": "最快、最经济"
       }
     },
     "thinkingModes": {
@@ -695,6 +706,13 @@
     "availableTools": "可用工具",
     "mcpServices": "MCP 服务",
     "noTools": "无可用工具"
+  },
+  "stats": {
+    "cost": "费用：${{amount}} USD",
+    "duration": "耗时：{{seconds}}s",
+    "turns": "轮次：{{count}}",
+    "totalTokens": "Total tokens: {{total}}（{{input}} 输入，{{output}} 输出）",
+    "tokens": "Tokens: {{input}} 输入，{{output}} 输出"
   },
   "slashCommandPicker": {
     "title": "斜杠命令",

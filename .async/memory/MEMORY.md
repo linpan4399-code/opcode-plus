@@ -1,0 +1,1 @@
+- [Opcode Plus - Tauri Desktop App](project/opcode-plus.md) — Tauri-based desktop app wrapping Claude Code CLI with custom UI, i18n support, and various UI components

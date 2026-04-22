@@ -460,6 +460,18 @@ export const Settings: React.FC<SettingsProps> = ({
                           {t("settings.general.light")}
                         </button>
                         <button
+                          onClick={() => setTheme('nativecc')}
+                          className={cn(
+                            "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all",
+                            theme === 'nativecc'
+                              ? "bg-background shadow-sm"
+                              : "hover:bg-background/50"
+                          )}
+                        >
+                          {theme === 'nativecc' && <Check className="h-3 w-3" />}
+                          {t("settings.general.nativecc")}
+                        </button>
+                        <button
                           onClick={() => setTheme('custom')}
                           className={cn(
                             "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all",

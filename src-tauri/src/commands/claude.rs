@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use std::sync::OnceLock;
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::io::{BufRead, BufReader};
@@ -389,6 +390,28 @@ fn extract_first_user_message(jsonl_path: &PathBuf) -> (Option<String>, Option<S
     (None, None)
 }
 
+/// Reads environment variables from the user's login shell.
+/// macOS GUI apps don't inherit shell env, so we source it explicitly.
+/// Result is cached so the shell is only spawned once per app lifetime.
+fn load_shell_env() -> &'static std::collections::HashMap<String, String> {
+    static SHELL_ENV: OnceLock<std::collections::HashMap<String, String>> = OnceLock::new();
+    SHELL_ENV.get_or_init(|| {
+        let shell = std::env::var("SHELL").unwrap_or_else(|_| "/bin/zsh".to_string());
+        let output = std::process::Command::new(&shell)
+            .args(["-l", "-c", "env"])
+            .output();
+        let mut map = std::collections::HashMap::new();
+        if let Ok(out) = output {
+            for line in String::from_utf8_lossy(&out.stdout).lines() {
+                if let Some((k, v)) = line.split_once('=') {
+                    map.insert(k.to_string(), v.to_string());
+                }
+            }
+        }
+        map
+    })
+}
+
 /// Helper function to create a tokio Command with proper environment variables
 /// This ensures commands like Claude can find Node.js and other dependencies
 fn create_command_with_env(program: &str) -> Command {
@@ -397,6 +420,12 @@ fn create_command_with_env(program: &str) -> Command {
 
     // Create a new tokio Command from the program path
     let mut tokio_cmd = Command::new(program);
+
+    // Load full shell environment (handles ANTHROPIC_BASE_URL etc. missing in GUI apps)
+    let shell_env = load_shell_env();
+    for (key, value) in shell_env {
+        tokio_cmd.env(key, value);
+    }
 
     // Copy over all environment variables
     for (key, value) in std::env::vars() {
@@ -412,6 +441,8 @@ fn create_command_with_env(program: &str) -> Command {
             || key == "NVM_BIN"
             || key == "HOMEBREW_PREFIX"
             || key == "HOMEBREW_CELLAR"
+            || key.starts_with("ANTHROPIC_")
+            || key.starts_with("CLAUDE_")
         {
             log::debug!("Inheriting env var: {}={}", key, value);
             tokio_cmd.env(&key, &value);
@@ -1512,16 +1543,18 @@ pub async fn execute_claude_code(
     project_path: String,
     prompt: String,
     model: String,
+    effort: Option<String>,
 ) -> Result<(), String> {
     log::info!(
-        "Starting new Claude Code session in: {} with model: {}",
+        "Starting new Claude Code session in: {} with model: {}, effort: {:?}",
         project_path,
-        model
+        model,
+        effort
     );
 
     let claude_path = find_claude_binary(&app)?;
 
-    let args = vec![
+    let mut args = vec![
         "-p".to_string(),
         prompt.clone(),
         "--model".to_string(),
@@ -1531,6 +1564,11 @@ pub async fn execute_claude_code(
         "--verbose".to_string(),
         "--dangerously-skip-permissions".to_string(),
     ];
+
+    if let Some(ref effort_val) = effort {
+        args.push("--effort".to_string());
+        args.push(effort_val.clone());
+    }
 
     let cmd = create_system_command(&claude_path, args, &project_path);
     spawn_claude_process(app, cmd, prompt, model, project_path).await
@@ -1576,17 +1614,19 @@ pub async fn resume_claude_code(
     session_id: String,
     prompt: String,
     model: String,
+    effort: Option<String>,
 ) -> Result<(), String> {
     log::info!(
-        "Resuming Claude Code session: {} in: {} with model: {}",
+        "Resuming Claude Code session: {} in: {} with model: {}, effort: {:?}",
         session_id,
         project_path,
-        model
+        model,
+        effort
     );
 
     let claude_path = find_claude_binary(&app)?;
 
-    let args = vec![
+    let mut args = vec![
         "--resume".to_string(),
         session_id.clone(),
         "-p".to_string(),
@@ -1598,6 +1638,11 @@ pub async fn resume_claude_code(
         "--verbose".to_string(),
         "--dangerously-skip-permissions".to_string(),
     ];
+
+    if let Some(ref effort_val) = effort {
+        args.push("--effort".to_string());
+        args.push(effort_val.clone());
+    }
 
     let cmd = create_system_command(&claude_path, args, &project_path);
     spawn_claude_process(app, cmd, prompt, model, project_path).await

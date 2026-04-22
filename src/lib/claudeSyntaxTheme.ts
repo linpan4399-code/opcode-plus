@@ -74,6 +74,19 @@ export const getClaudeSyntaxTheme = (theme: ThemeMode): any => {
       keyword: '#c084fc',
       variable: '#a78bfa',
       operator: '#9ca3af',
+    },
+    nativecc: {
+      base: '#2b2b2a',
+      background: 'transparent',
+      comment: '#9a8f80',
+      punctuation: '#6b6357',
+      property: '#c85a3d', // Claude coral
+      tag: '#7c3aed',
+      string: '#16794a',
+      function: '#1d4ed8',
+      keyword: '#a0421c',
+      variable: '#7c4d24',
+      operator: '#6b6357',
     }
   };
 

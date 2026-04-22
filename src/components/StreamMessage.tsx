@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Terminal,
-  User,
-  Bot,
   AlertCircle,
   CheckCircle2,
   ChevronRight,
@@ -154,9 +153,24 @@ interface StreamMessageProps {
  * Component to render a single Claude Code stream message
  */
 const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, className, streamMessages, onLinkDetected }) => {
+  const { t } = useTranslation();
   // State to track tool results mapped by tool call ID
   const [toolResults, setToolResults] = useState<Map<string, any>>(new Map());
-  
+
+  // Session info visibility
+  const [showSessionInfo, setShowSessionInfo] = useState(() => {
+    return localStorage.getItem('show_session_info') !== 'false';
+  });
+
+  // Listen for session info toggle events
+  useEffect(() => {
+    const handler = (e: Event) => {
+      setShowSessionInfo((e as CustomEvent).detail);
+    };
+    window.addEventListener('session-info-toggle', handler);
+    return () => window.removeEventListener('session-info-toggle', handler);
+  }, []);
+
   // Get current theme
   const { theme } = useTheme();
   const syntaxTheme = getClaudeSyntaxTheme(theme);
@@ -198,6 +212,7 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
 
     // System initialization message
     if (message.type === "system" && message.subtype === "init") {
+      if (!showSessionInfo) return null;
       return (
         <SystemInitializedWidget
           sessionId={message.session_id}
@@ -215,12 +230,9 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
       let renderedSomething = false;
       
       const renderedCard = (
-        <Card className={cn("border-primary/20 bg-primary/5", className)}>
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
-              <Bot className="h-5 w-5 text-primary mt-0.5" />
-              <div className="flex-1 space-y-2 min-w-0">
-                {msg.content && Array.isArray(msg.content) && msg.content.map((content: any, idx: number) => {
+        <div className={cn("py-2", className)}>
+          <div className="space-y-3 min-w-0">
+            {msg.content && Array.isArray(msg.content) && msg.content.map((content: any, idx: number) => {
                   // Text content - render as markdown
                   if (content.type === "text") {
                     // Ensure we have a string to render
@@ -419,18 +431,10 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
                   
                   return null;
                 })}
-                
-                {msg.usage && (
-                  <div className="text-xs text-muted-foreground mt-2">
-                    Tokens: {msg.usage.input_tokens} in, {msg.usage.output_tokens} out
-                  </div>
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       );
-      
+
       if (!renderedSomething) return null;
       return renderedCard;
     }
@@ -446,11 +450,9 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
       let renderedSomething = false;
       
       const renderedCard = (
-        <Card className={cn("border-muted-foreground/20 bg-muted/20", className)}>
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
-              <User className="h-5 w-5 text-muted-foreground mt-0.5" />
-              <div className="flex-1 space-y-2 min-w-0">
+        <div className={cn("flex justify-end py-2", className)}>
+          <div className="max-w-[85%] rounded-2xl bg-muted px-4 py-3">
+            <div className="space-y-2 min-w-0 text-[15px] leading-relaxed">
                 {/* Handle content that is a simple string (e.g. from user commands) */}
                 {(typeof msg.content === 'string' || (msg.content && !Array.isArray(msg.content))) && (
                   (() => {
@@ -746,10 +748,9 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
                   
                   return null;
                 })}
-              </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       );
       if (!renderedSomething) return null;
       return renderedCard;
@@ -766,92 +767,80 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
       }
       
       return (
-        <Card className={cn(
-          isError ? "border-destructive/20 bg-destructive/5" : "border-green-500/20 bg-green-500/5",
-          className
-        )}>
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
-              {isError ? (
-                // Use custom icon if available, otherwise keep original AlertCircle
-                parsedError?.icon ? (
-                  <parsedError.icon className="h-5 w-5 text-destructive mt-0.5" />
+        <div className={cn("py-2", className)}>
+          {/* Error content */}
+          {isError && (
+            <div className="space-y-2 mb-2">
+              <div className="flex items-center gap-2 text-destructive">
+                {parsedError?.icon ? (
+                  <parsedError.icon className="h-4 w-4" />
                 ) : (
-                  <AlertCircle className="h-5 w-5 text-destructive mt-0.5" />
-                )
-              ) : (
-                <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5" />
-              )}
-              <div className="flex-1 space-y-2">
-                <h4 className="font-semibold text-sm">
-                  {/* Use parsed title if available, otherwise keep original logic */}
-                  {parsedError?.isSpecialError ? parsedError.title : (isError ? "Execution Failed" : "Execution Complete")}
-                </h4>
-                
-                {/* Show enhanced error message for special errors */}
-                {parsedError?.isSpecialError && (
-                  <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md border border-destructive/20">
-                    {parsedError.description}
-                  </div>
+                  <AlertCircle className="h-4 w-4" />
                 )}
-                
-                {/* Keep original result rendering logic - only show if not a special error */}
-                {message.result && (!parsedError?.isSpecialError) && (
-                  <div className="prose prose-sm dark:prose-invert max-w-none">
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      components={{
-                        code({ node, inline, className, children, ...props }: any) {
-                          const match = /language-(\w+)/.exec(className || '');
-                          return !inline && match ? (
-                            <SyntaxHighlighter
-                              style={syntaxTheme}
-                              language={match[1]}
-                              PreTag="div"
-                              {...props}
-                            >
-                              {String(children).replace(/\n$/, '')}
-                            </SyntaxHighlighter>
-                          ) : (
-                            <code className={className} {...props}>
-                              {children}
-                            </code>
-                          );
-                        }
-                      }}
-                    >
-                      {message.result}
-                    </ReactMarkdown>
-                  </div>
-                )}
-                
-                {/* Keep original error handling */}
-                {message.error && (
-                  <div className="text-sm text-destructive">{message.error}</div>
-                )}
-                
-                {/* Keep original stats section unchanged */}
-                <div className="text-xs text-muted-foreground space-y-1 mt-2">
-                  {(message.cost_usd !== undefined || message.total_cost_usd !== undefined) && (
-                    <div>Cost: ${((message.cost_usd || message.total_cost_usd)!).toFixed(4)} USD</div>
-                  )}
-                  {message.duration_ms !== undefined && (
-                    <div>Duration: {(message.duration_ms / 1000).toFixed(2)}s</div>
-                  )}
-                  {message.num_turns !== undefined && (
-                    <div>Turns: {message.num_turns}</div>
-                  )}
-                  {message.usage && (
-                    <div>
-                      Total tokens: {message.usage.input_tokens + message.usage.output_tokens} 
-                      ({message.usage.input_tokens} in, {message.usage.output_tokens} out)
-                    </div>
-                  )}
-                </div>
+                <span className="text-sm font-medium">
+                  {parsedError?.isSpecialError ? parsedError.title : "Execution Failed"}
+                </span>
               </div>
+
+              {parsedError?.isSpecialError && (
+                <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md border border-destructive/20">
+                  {parsedError.description}
+                </div>
+              )}
+
+              {message.result && (!parsedError?.isSpecialError) && (
+                <div className="prose prose-sm dark:prose-invert max-w-none">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      code({ node, inline, className, children, ...props }: any) {
+                        const match = /language-(\w+)/.exec(className || '');
+                        return !inline && match ? (
+                          <SyntaxHighlighter
+                            style={syntaxTheme}
+                            language={match[1]}
+                            PreTag="div"
+                            {...props}
+                          >
+                            {String(children).replace(/\n$/, '')}
+                          </SyntaxHighlighter>
+                        ) : (
+                          <code className={className} {...props}>
+                            {children}
+                          </code>
+                        );
+                      }
+                    }}
+                  >
+                    {message.result}
+                  </ReactMarkdown>
+                </div>
+              )}
+
+              {message.error && (
+                <div className="text-sm text-destructive">{message.error}</div>
+              )}
             </div>
-          </CardContent>
-        </Card>
+          )}
+
+          {/* Stats */}
+          <div className="text-xs text-muted-foreground space-y-0.5 border-t border-border/50 pt-2 mt-1">
+            {(message.cost_usd !== undefined || message.total_cost_usd !== undefined) && (
+              <div>{t('stats.cost', { amount: ((message.cost_usd ?? message.total_cost_usd)!).toFixed(4) })}</div>
+            )}
+            {message.duration_ms !== undefined && (
+              <div>{t('stats.duration', { seconds: (message.duration_ms / 1000).toFixed(2) })}</div>
+            )}
+            {message.num_turns !== undefined && (
+              <div>{t('stats.turns', { count: message.num_turns })}</div>
+            )}
+            {message.usage && (
+              <div>
+                {t('stats.totalTokens', { total: message.usage.input_tokens + message.usage.output_tokens, input: message.usage.input_tokens, output: message.usage.output_tokens })}
+              </div>
+            )}
+          </div>
+        </div>
       );
     }
 

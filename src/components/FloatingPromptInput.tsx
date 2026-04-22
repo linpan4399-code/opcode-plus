@@ -47,7 +47,7 @@ interface FloatingPromptInputProps {
   /**
    * Callback when prompt is sent
    */
-  onSend: (prompt: string, model: "sonnet" | "opus") => void;
+  onSend: (prompt: string, model: string, effort?: string) => void;
   /**
    * Whether the input is loading
    */
@@ -59,7 +59,7 @@ interface FloatingPromptInputProps {
   /**
    * Default model to select
    */
-  defaultModel?: "sonnet" | "opus";
+  defaultModel?: string;
   /**
    * Project path for file picker
    */
@@ -95,7 +95,6 @@ type ThinkingModeConfig = {
   name: string;
   description: string;
   level: number; // 0-4 for visual indicator
-  phrase?: string; // The phrase to append
   icon: React.ReactNode;
   color: string;
   shortName: string;
@@ -127,7 +126,7 @@ const ThinkingModeIndicator: React.FC<{ level: number; color?: string }> = ({ le
 };
 
 type Model = {
-  id: "sonnet" | "opus";
+  id: string;
   name: string;
   description: string;
   icon: React.ReactNode;
@@ -161,7 +160,7 @@ const FloatingPromptInputInner = (
 ) => {
   const { t } = useTranslation();
   const [prompt, setPrompt] = useState("");
-  const [selectedModel, setSelectedModel] = useState<"sonnet" | "opus">(defaultModel);
+  const [selectedModel, setSelectedModel] = useState<string>(defaultModel);
   const [selectedThinkingMode, setSelectedThinkingMode] = useState<ThinkingMode>("auto");
   const [isExpanded, setIsExpanded] = useState(false);
   const [modelPickerOpen, setModelPickerOpen] = useState(false);
@@ -199,7 +198,6 @@ const FloatingPromptInputInner = (
       name: t("promptInput.thinkingModes.think.name"),
       description: t("promptInput.thinkingModes.think.description"),
       level: 1,
-      phrase: "think",
       icon: <Lightbulb className="h-3.5 w-3.5" />,
       color: "text-primary",
       shortName: "T"
@@ -209,7 +207,6 @@ const FloatingPromptInputInner = (
       name: t("promptInput.thinkingModes.think_hard.name"),
       description: t("promptInput.thinkingModes.think_hard.description"),
       level: 2,
-      phrase: "think hard",
       icon: <Brain className="h-3.5 w-3.5" />,
       color: "text-primary",
       shortName: "T+"
@@ -219,7 +216,6 @@ const FloatingPromptInputInner = (
       name: t("promptInput.thinkingModes.think_harder.name"),
       description: t("promptInput.thinkingModes.think_harder.description"),
       level: 3,
-      phrase: "think harder",
       icon: <Cpu className="h-3.5 w-3.5" />,
       color: "text-primary",
       shortName: "T++"
@@ -229,29 +225,44 @@ const FloatingPromptInputInner = (
       name: t("promptInput.thinkingModes.ultrathink.name"),
       description: t("promptInput.thinkingModes.ultrathink.description"),
       level: 4,
-      phrase: "ultrathink",
       icon: <Rocket className="h-3.5 w-3.5" />,
       color: "text-primary",
       shortName: "Ultra"
     }
   ];
 
-  // Models with i18n
+  // Models with i18n - aligned with Claude Code CLI `/model` menu
   const MODELS: Model[] = [
     {
-      id: "sonnet",
-      name: t("promptInput.models.sonnet.name"),
-      description: t("promptInput.models.sonnet.description"),
+      id: "default",
+      name: t("promptInput.models.default.name"),
+      description: t("promptInput.models.default.description"),
+      icon: <Sparkles className="h-3.5 w-3.5" />,
+      shortName: "D",
+      color: "text-muted-foreground"
+    },
+    {
+      id: "sonnet[1m]",
+      name: t("promptInput.models.sonnet[1m].name"),
+      description: t("promptInput.models.sonnet[1m].description"),
       icon: <Zap className="h-3.5 w-3.5" />,
-      shortName: "S",
+      shortName: "S1M",
       color: "text-primary"
     },
     {
       id: "opus",
       name: t("promptInput.models.opus.name"),
       description: t("promptInput.models.opus.description"),
-      icon: <Zap className="h-3.5 w-3.5" />,
+      icon: <Brain className="h-3.5 w-3.5" />,
       shortName: "O",
+      color: "text-primary"
+    },
+    {
+      id: "haiku",
+      name: t("promptInput.models.haiku.name"),
+      description: t("promptInput.models.haiku.description"),
+      icon: <Rocket className="h-3.5 w-3.5" />,
+      shortName: "H",
       color: "text-primary"
     }
   ];
@@ -678,15 +689,16 @@ const FloatingPromptInputInner = (
     // keydown path checks in handleKeyDown
 
     if (prompt.trim() && !disabled) {
-      let finalPrompt = prompt.trim();
+      // Map thinking mode to CLI --effort level
+      const EFFORT_MAP: Record<string, string> = {
+        think: "low",
+        think_hard: "medium",
+        think_harder: "high",
+        ultrathink: "max",
+      };
+      const effort = EFFORT_MAP[selectedThinkingMode];
 
-      // Append thinking phrase if not auto mode
-      const thinkingMode = THINKING_MODES.find(m => m.id === selectedThinkingMode);
-      if (thinkingMode && thinkingMode.phrase) {
-        finalPrompt = `${finalPrompt}.\n\n${thinkingMode.phrase}.`;
-      }
-
-      onSend(finalPrompt, selectedModel);
+      onSend(prompt.trim(), selectedModel, effort);
       setPrompt("");
       setEmbeddedImages([]);
       setTextareaHeight(48); // Reset height after sending
