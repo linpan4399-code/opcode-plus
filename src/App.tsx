@@ -504,8 +504,13 @@ function App() {
     return true; // default if no cache
   });
 
+  // 推迟 <AppContent /> 挂载, 给 StartupIntro 动画独占主线程 ~700ms.
+  // 若用户禁用了开机动画, 立即挂载不延迟.
+  const [mountContent, setMountContent] = useState(() => !showIntro);
+
   useEffect(() => {
     let timer: number | undefined;
+    let mountTimer: number | undefined;
     (async () => {
       try {
         const pref = await api.getSetting('startup_intro_enabled');
@@ -513,17 +518,27 @@ function App() {
         if (enabled) {
           // keep intro visible and hide after duration
           timer = window.setTimeout(() => setShowIntro(false), 2000);
+          // AppContent 推迟到动画大头跑完 (0.6s 动画 + 0.1s 缓冲) 再挂载,
+          // 避免 React hydration 在同帧竞争主线程导致动画卡顿.
+          if (!mountContent) {
+            mountTimer = window.setTimeout(() => setMountContent(true), 750);
+          }
         } else {
           // user disabled intro: hide immediately to avoid any overlay delay
           setShowIntro(false);
+          setMountContent(true);
         }
       } catch (err) {
         // On failure, show intro once to keep UX consistent
         timer = window.setTimeout(() => setShowIntro(false), 2000);
+        if (!mountContent) {
+          mountTimer = window.setTimeout(() => setMountContent(true), 750);
+        }
       }
     })();
     return () => {
       if (timer) window.clearTimeout(timer);
+      if (mountTimer) window.clearTimeout(mountTimer);
     };
   }, []);
 
@@ -531,7 +546,7 @@ function App() {
     <ThemeProvider>
       <OutputCacheProvider>
         <TabProvider>
-          <AppContent />
+          {mountContent && <AppContent />}
           <StartupIntro visible={showIntro} />
         </TabProvider>
       </OutputCacheProvider>

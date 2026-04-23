@@ -904,7 +904,7 @@ const FloatingPromptInputInner = (
                 onBlur={handleBlur}
                 onPaste={handlePaste}
                 placeholder="Type your message..."
-                className="min-h-[200px] resize-none"
+                className="min-h-[200px] resize-none text-base"
                 disabled={disabled}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
@@ -1236,7 +1236,7 @@ const FloatingPromptInputInner = (
                   }
                   disabled={disabled}
                   className={cn(
-                    "resize-none pr-20 pl-3 py-2.5 transition-all duration-150",
+                    "resize-none pr-20 pl-3 py-2.5 text-base transition-all duration-150",
                     dragActive && "border-primary",
                     textareaHeight >= 240 && "overflow-y-auto scrollbar-thin"
                   )}

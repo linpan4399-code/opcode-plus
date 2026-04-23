@@ -26,7 +26,7 @@ import { listen } from "@tauri-apps/api/event";
 type UnlistenFn = () => void;
 import { StreamMessage } from "./StreamMessage";
 import { FloatingPromptInput, type FloatingPromptInputRef } from "./FloatingPromptInput";
-import { DogAnimation } from "./DogAnimation";
+import { ThinkingIndicator } from "./ThinkingIndicator";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { TimelineNavigator } from "./TimelineNavigator";
 import { CheckpointSettings } from "./CheckpointSettings";
@@ -1242,7 +1242,7 @@ export const ClaudeCodeSession: React.FC<ClaudeCodeSessionProps> = ({
           transition={{ duration: 0.15 }}
           className="flex items-center justify-center py-4 mb-20"
         >
-          <DogAnimation />
+          <ThinkingIndicator />
         </motion.div>
       )}
 
@@ -1329,7 +1329,7 @@ export const ClaudeCodeSession: React.FC<ClaudeCodeSessionProps> = ({
               {isLoading && messages.length === 0 && (
                 <div className="flex items-center justify-center h-full">
                   <div className="flex flex-col items-center gap-3">
-                    <DogAnimation />
+                    <ThinkingIndicator />
                     <span className="text-sm text-muted-foreground">
                       {session ? "Loading session history..." : "Initializing Claude Code..."}
                     </span>

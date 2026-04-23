@@ -1,14 +1,15 @@
 import { AnimatePresence, motion } from "framer-motion";
 import opcodeLogo from "../../src-tauri/icons/icon.png";
-import type { CSSProperties } from "react";
 
 /**
- * StartupIntro - a lightweight startup overlay shown on app launch.
- * - Non-interactive; auto-fades after parent hides it via the `visible` prop.
- * - Uses existing shimmer/rotating-symbol styles from shimmer.css.
+ * StartupIntro - 轻量启动遮罩
+ *
+ * 性能关键:
+ *  - 品牌文字揭示用 transform scaleX 遮罩, 纯 GPU 合成, 不触发 repaint
+ *    (旧版 clip-path: inset() 在 WebKit 不走 GPU, 会跟 React hydration 抢主线程)
+ *  - 只保留一层极轻 vignette; 移除全视口 radial glow 以降帧绘制成本
  */
 export function StartupIntro({ visible }: { visible: boolean }) {
-  // Simple entrance animations only
   return (
     <AnimatePresence>
       {visible && (
@@ -20,25 +21,12 @@ export function StartupIntro({ visible }: { visible: boolean }) {
           className="fixed inset-0 z-[60] flex items-center justify-center bg-background"
           aria-hidden="true"
         >
-          {/* Ambient radial glow */}
-          <motion.div
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.25 }}
-            style={{
-              background:
-                "radial-gradient(800px circle at 50% 55%, var(--color-primary)/8, transparent 65%)",
-              pointerEvents: "none",
-            } as CSSProperties}
-          />
-
-          {/* Subtle vignette */}
+          {/* 极轻 vignette, 不影响合成性能 */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "radial-gradient(1200px circle at 50% 40%, transparent 60%, rgba(0,0,0,0.25))",
+                "radial-gradient(1200px circle at 50% 40%, transparent 65%, rgba(0,0,0,0.08))",
             }}
           />
 
@@ -49,10 +37,9 @@ export function StartupIntro({ visible }: { visible: boolean }) {
             transition={{ type: "spring", stiffness: 280, damping: 22 }}
             className="relative flex flex-col items-center justify-center gap-1"
           >
-
-            {/* opcodePlus logo slides left; brand text reveals to the right */}
+            {/* opcodePlus logo 左滑; 品牌文字用 GPU transform 遮罩从左向右揭示 */}
             <div className="relative flex items-center justify-center">
-              {/* Logo wrapper that gently slides left */}
+              {/* Logo */}
               <motion.div
                 className="relative z-10"
                 initial={{ opacity: 0, scale: 1, x: 0 }}
@@ -73,18 +60,15 @@ export function StartupIntro({ visible }: { visible: boolean }) {
                 />
               </motion.div>
 
-              {/* Brand text reveals left-to-right in the freed space */}
+              {/* 品牌文字容器 · 只动 GPU transform, 内部 CSS mask 做 wipe 揭示 */}
               <motion.div
-                initial={{ x: -35, opacity: 0, clipPath: "inset(0 100% 0 0)" }}
-                animate={{ x: 2, opacity: 1, clipPath: "inset(0 0% 0 0)" }}
-                transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-                style={{ willChange: "transform, opacity, clip-path" }}
+                initial={{ x: -35 }}
+                animate={{ x: 2 }}
+                transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
               >
                 <BrandText />
               </motion.div>
             </div>
-
-
           </motion.div>
         </motion.div>
       )}
@@ -96,7 +80,7 @@ export default StartupIntro;
 
 function BrandText() {
   return (
-    <div className="text-5xl font-extrabold tracking-tight brand-text">
+    <div className="text-5xl font-extrabold tracking-tight brand-text brand-reveal">
       <span className="brand-text-solid">opcodePlus</span>
       <span aria-hidden="true" className="brand-text-shimmer">opcodePlus</span>
     </div>

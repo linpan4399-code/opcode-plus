@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Terminal,
@@ -13,6 +13,8 @@ import {
   Hash,
   ListChecks,
   CircleDot,
+  Copy,
+  Check,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -49,6 +51,46 @@ import {
   WebSearchWidget,
   WebFetchWidget
 } from "./ToolWidgets";
+
+/**
+ * Code block with language label and copy button (Claude Desktop style)
+ */
+const CodeBlock: React.FC<{
+  language: string;
+  children: string;
+  syntaxTheme: any;
+}> = ({ language, children, syntaxTheme }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(children);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }, [children]);
+
+  return (
+    <div className="relative group rounded-lg overflow-hidden border border-border/50 my-3">
+      <div className="flex items-center justify-between px-3 py-1.5 bg-muted/50 border-b border-border/50">
+        <span className="text-xs text-muted-foreground font-mono">{language}</span>
+        <button
+          onClick={handleCopy}
+          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+        >
+          {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+          {copied ? "Copied" : "Copy"}
+        </button>
+      </div>
+      <SyntaxHighlighter
+        style={syntaxTheme}
+        language={language}
+        PreTag="div"
+        customStyle={{ margin: 0, borderRadius: 0 }}
+      >
+        {children}
+      </SyntaxHighlighter>
+    </div>
+  );
+};
 
 /**
  * Compact collapsible wrapper for any tool-invocation widget.
@@ -111,33 +153,33 @@ const CollapsibleToolWidget: React.FC<{
   const meta = toolMeta(toolName, input);
 
   return (
-    <div>
+    <div className="my-1">
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}
         className={cn(
-          "w-full px-3 py-2 flex items-center gap-2 rounded-lg border bg-muted/30 hover:bg-muted/60 transition-colors text-xs text-left",
-          expanded && "rounded-b-none border-b-0",
-          isError && "border-[color:var(--color-destructive)]/40"
+          "flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors py-0.5",
+          isError && "text-destructive"
         )}
       >
-        <ChevronRight className={cn("h-3.5 w-3.5 text-muted-foreground transition-transform flex-shrink-0", expanded && "rotate-90")} />
-        {meta.icon}
-        <span className="font-medium flex-shrink-0">{meta.label}</span>
+        {running ? (
+          <span className="h-3.5 w-3.5 border-2 border-muted-foreground/40 border-t-muted-foreground rounded-full animate-spin flex-shrink-0" />
+        ) : isError ? (
+          <AlertCircle className="h-3.5 w-3.5 text-destructive flex-shrink-0" />
+        ) : (
+          <CheckCircle2 className="h-3.5 w-3.5 text-green-500 flex-shrink-0" />
+        )}
+        <span>{meta.label}</span>
         {meta.summary && (
-          <span className="text-muted-foreground truncate font-mono">{meta.summary}</span>
+          <span className="text-muted-foreground/70 truncate font-mono text-xs max-w-[400px]">{meta.summary}</span>
         )}
-        {running && (
-          <span className="ml-auto flex items-center gap-1 text-muted-foreground flex-shrink-0">
-            <span className="h-1.5 w-1.5 bg-green-500 rounded-full animate-pulse" />
-            <span>Running</span>
-          </span>
-        )}
-        {!running && isError && (
-          <span className="ml-auto text-[color:var(--color-destructive)] flex-shrink-0">Error</span>
-        )}
+        <ChevronRight className={cn("h-3 w-3 text-muted-foreground/50 transition-transform flex-shrink-0 ml-0.5", expanded && "rotate-90")} />
       </button>
-      {expanded && <div>{children}</div>}
+      {expanded && (
+        <div className="ml-5 mt-1 border-l-2 border-border/50 pl-3">
+          {children}
+        </div>
+      )}
     </div>
   );
 };
@@ -248,15 +290,9 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
                           components={{
                             code({ node, inline, className, children, ...props }: any) {
                               const match = /language-(\w+)/.exec(className || '');
+                              const codeStr = String(children).replace(/\n$/, '');
                               return !inline && match ? (
-                                <SyntaxHighlighter
-                                  style={syntaxTheme}
-                                  language={match[1]}
-                                  PreTag="div"
-                                  {...props}
-                                >
-                                  {String(children).replace(/\n$/, '')}
-                                </SyntaxHighlighter>
+                                <CodeBlock language={match[1]} syntaxTheme={syntaxTheme}>{codeStr}</CodeBlock>
                               ) : (
                                 <code className={className} {...props}>
                                   {children}
@@ -452,7 +488,7 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
       const renderedCard = (
         <div className={cn("flex justify-end py-2", className)}>
           <div className="max-w-[85%] rounded-2xl bg-muted px-4 py-3">
-            <div className="space-y-2 min-w-0 text-[15px] leading-relaxed">
+            <div className="space-y-2 min-w-0 text-base leading-7">
                 {/* Handle content that is a simple string (e.g. from user commands) */}
                 {(typeof msg.content === 'string' || (msg.content && !Array.isArray(msg.content))) && (
                   (() => {
@@ -482,7 +518,7 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
                     
                     // Otherwise render as plain text
                     return (
-                      <div className="text-sm">
+                      <div className="text-base leading-7 whitespace-pre-wrap">
                         {contentStr}
                       </div>
                     );
@@ -734,13 +770,13 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
                   // Text content
                   if (content.type === "text") {
                     // Handle both string and object formats
-                    const textContent = typeof content.text === 'string' 
-                      ? content.text 
+                    const textContent = typeof content.text === 'string'
+                      ? content.text
                       : (content.text?.text || JSON.stringify(content.text));
-                    
+
                     renderedSomething = true;
                     return (
-                      <div key={idx} className="text-sm">
+                      <div key={idx} className="text-base leading-7 whitespace-pre-wrap">
                         {textContent}
                       </div>
                     );
@@ -795,15 +831,9 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
                     components={{
                       code({ node, inline, className, children, ...props }: any) {
                         const match = /language-(\w+)/.exec(className || '');
+                        const codeStr = String(children).replace(/\n$/, '');
                         return !inline && match ? (
-                          <SyntaxHighlighter
-                            style={syntaxTheme}
-                            language={match[1]}
-                            PreTag="div"
-                            {...props}
-                          >
-                            {String(children).replace(/\n$/, '')}
-                          </SyntaxHighlighter>
+                          <CodeBlock language={match[1]} syntaxTheme={syntaxTheme}>{codeStr}</CodeBlock>
                         ) : (
                           <code className={className} {...props}>
                             {children}

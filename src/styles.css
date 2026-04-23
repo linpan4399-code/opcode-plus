@@ -1028,4 +1028,31 @@ code::-webkit-scrollbar-thumb:hover {
 
 .image-move-to-input {
   animation: moveToInput 0.8s ease-in-out forwards;
-} 
+}
+
+/* Thinking Indicator · 6 根竖条波浪 (参考 docs 小狗.html, 颜色跟随 --color-primary, 多主题自适配) */
+@keyframes thinking-wave {
+  0%, 100% {
+    height: var(--ti-min-h, 6px);
+    opacity: 0.4;
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    height: var(--ti-peak-h, 22px);
+    opacity: 1;
+    filter: drop-shadow(0 0 6px var(--color-primary));
+  }
+}
+
+.thinking-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--ti-peak-h, 22px);
+}
+
+.thinking-indicator > span {
+  display: block;
+  background-color: var(--color-primary);
+  animation: thinking-wave 1.2s infinite cubic-bezier(0.45, 0, 0.55, 1);
+}
